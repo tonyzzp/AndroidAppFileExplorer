@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.Toast
 import java.io.File
 import java.lang.ref.WeakReference
+import java.net.URLDecoder
 import java.util.*
 import kotlin.jvm.internal.Ref
 
@@ -67,7 +68,7 @@ internal fun Activity.showItemsDialog(items: Array<String>, listener: (dialog: D
     return AlertDialog.Builder(this).setItems(items, listener).show()
 }
 
-internal fun Uri.toFile(): File = File(toString().substringAfter("file://"))
+internal fun Uri.toFile(): File = File(URLDecoder.decode(toString().substringAfter("file://"), "UTF-8"))
 
 /**
  * 对File按名字排序，文件夹排前面
