@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import java.io.InputStream;
+import java.util.Arrays;
+
 import me.izzp.androidappfileexplorer.FileExplorerActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,11 +19,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onFileExplorerClick(View view) {
-        Intent intent = FileExplorerActivity.Companion.create(this, getFilesDir().getAbsolutePath());
+        Intent intent = FileExplorerActivity.Companion.create(this, getFilesDir().getParent());
         startActivity(intent);
     }
 
     public void onCreateTestFilesClick(View view) {
-        MakeTestFilesKt.makeFiles(getFilesDir());
+        MakeTestFilesKt.makeFiles(this, getFilesDir());
     }
 }

@@ -3,7 +3,7 @@
     style="@style/Widget.AppCompat.ListView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_selector"
+    android:background="@drawable/afe_background_selector"
     android:gravity="center_vertical"
     android:paddingBottom="5dp"
     android:paddingLeft="3dp"
@@ -14,7 +14,8 @@
         android:id="@+id/iv_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_gallery" />
+        android:src="@android:drawable/ic_menu_gallery"
+        android:transitionName="icon" />
 
     <TextView
         android:id="@+id/tv_name"
