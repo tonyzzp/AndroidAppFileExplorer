@@ -13,6 +13,7 @@ class AudioViewerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_audio_viewer)
+        supportActionBar?.title = intent.data.toFile().name
         volumeControlStream = AudioManager.STREAM_MUSIC
         player = MediaPlayer.create(this, intent.data)
         if (player != null) {

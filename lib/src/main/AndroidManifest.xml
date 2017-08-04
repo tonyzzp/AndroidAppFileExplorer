@@ -2,11 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.izzp.androidappfileexplorer">
 
-    <application
-        android:allowBackup="true"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+    <application>
         <activity android:name=".FileExplorerActivity" />
         <activity android:name=".TextViewerActivity">
             <intent-filter>
@@ -29,7 +25,11 @@
                 <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>
-        <activity android:name=".VideoViewerActivity">
+        <activity
+            android:name=".VideoViewerActivity"
+
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="me.izzp.androidappfileexplorer.ACTION_VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
