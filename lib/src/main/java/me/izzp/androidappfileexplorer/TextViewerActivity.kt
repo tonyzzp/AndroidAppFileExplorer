@@ -2,7 +2,7 @@ package me.izzp.androidappfileexplorer
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_text_viewer.*
+import kotlinx.android.synthetic.main.afe_activity_text_viewer.*
 
 class TextViewerActivity : AppCompatActivity() {
 

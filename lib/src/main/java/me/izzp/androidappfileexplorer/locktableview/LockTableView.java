@@ -189,7 +189,7 @@ public class LockTableView {
         maxRowHeight = 60;
         mNullableString = "N/A";
         mTableHeadTextColor = R.color.afe_bg;
-        mTableContentTextColor = R.color.border_color;
+        mTableContentTextColor = R.color.afe_border_color;
         mFristRowBackGroudColor = R.color.afe_table_head;
         mTextViewSize = 16;
     }

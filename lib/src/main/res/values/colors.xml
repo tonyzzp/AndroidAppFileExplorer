@@ -3,4 +3,5 @@
     <color name="afe_table_head">#E5EFFE</color>
     <color name="afe_bg">#2c8fd3</color>
     <color name="afe_light_gray">#e6e6e6</color>
+    <color name="afe_border_color">#817F80</color>
 </resources>

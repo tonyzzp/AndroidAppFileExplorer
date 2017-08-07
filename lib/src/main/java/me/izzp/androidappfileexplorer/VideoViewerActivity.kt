@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.WindowManager
 import android.widget.MediaController
-import kotlinx.android.synthetic.main.activity_video_viewer.*
+import kotlinx.android.synthetic.main.afe_activity_video_viewer.*
 
 class VideoViewerActivity : AppCompatActivity() {
 

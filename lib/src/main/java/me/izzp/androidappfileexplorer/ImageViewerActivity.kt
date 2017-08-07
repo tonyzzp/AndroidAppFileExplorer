@@ -3,7 +3,7 @@ package me.izzp.androidappfileexplorer
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_image_view.*
+import kotlinx.android.synthetic.main.afe_activity_image_view.*
 
 class ImageViewerActivity : AppCompatActivity() {
 

@@ -17,7 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import kotlinx.android.synthetic.main.activity_file_explorer.*
+import kotlinx.android.synthetic.main.afe_activity_file_explorer.*
 import java.io.File
 import kotlin.properties.Delegates
 
@@ -178,7 +178,7 @@ class FileExplorerActivity : AppCompatActivity() {
 
         if (type == "") {
             val strs = arrayOf("文本", "图片", "音频", "视频")
-            showItemsDialog(strs) { dialog, which ->
+            showItemsDialog(strs) { _, which ->
                 type = when (which) {
                     0 -> "text/*"
                     1 -> "image/*"

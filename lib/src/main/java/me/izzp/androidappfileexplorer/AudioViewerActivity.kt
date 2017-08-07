@@ -4,7 +4,7 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_audio_viewer.*
+import kotlinx.android.synthetic.main.afe_activity_audio_viewer.*
 
 class AudioViewerActivity : AppCompatActivity() {
 

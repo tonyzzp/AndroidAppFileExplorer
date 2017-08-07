@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import kotlinx.android.synthetic.main.activity_dbviewer.*
+import kotlinx.android.synthetic.main.afe_activity_dbviewer.*
 import me.izzp.androidappfileexplorer.locktableview.LockTableView
 
 class DBViewerActivity : AppCompatActivity() {
