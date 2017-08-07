@@ -41,10 +41,8 @@ class AudioViewerActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        if (player != null) {
-            player!!.pause()
-            btn.setImageResource(R.drawable.afe_ic_btn_play)
-        }
+        player?.pause()
+        btn.setImageResource(R.drawable.afe_ic_btn_play)
     }
 
     override fun onDestroy() {

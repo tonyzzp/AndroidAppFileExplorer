@@ -23,6 +23,14 @@ import kotlin.properties.Delegates
 
 class FileExplorerActivity : AppCompatActivity() {
 
+    private class Item(val type: Int, val file: File) {
+        companion object {
+            const val TYPE_DIR = 1
+            const val TYPE_FILE = 2
+            const val TYPE_RETURN = 3
+        }
+    }
+
     companion object {
         fun create(context: Context, dir: String): Intent {
             val intent = Intent(context, FileExplorerActivity::class.java)
@@ -34,36 +42,53 @@ class FileExplorerActivity : AppCompatActivity() {
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val icon = itemView.findViewById(R.id.iv_icon) as ImageView
         val name = itemView.findViewById(R.id.tv_name) as TextView
+        val path = itemView.findViewById(R.id.tv_path) as TextView
     }
 
-    inner class Adapter(val list: List<File>) : RecyclerView.Adapter<Holder>() {
+    private inner class Adapter(val list: List<Item>) : RecyclerView.Adapter<Holder>() {
         override fun onBindViewHolder(holder: Holder, position: Int) {
-            val f = itemAt(position)
-            holder.name.text = f.name
-            var img = R.drawable.afe_ic_fileicon_file_light
-            if (f.isDirectory) {
-                img = R.drawable.afe_ic_fileicon_folder_light
-            } else if (f.isImageFile()) {
-                img = R.drawable.afe_ic_fileicon_image_light
-            } else if (f.isVideoFile()) {
-                img = R.drawable.afe_ic_fileicon_video_light
-            } else if (f.isAudioFile()) {
-                img = R.drawable.afe_ic_fileicon_audio_light
-            } else if (f.isTextFile()) {
-                img = R.drawable.afe_ic_fileicon_text_light
+            val item = itemAt(position)
+            val f = item.file
+            val type = item.type
+            if (type == Item.TYPE_FILE) {
+                holder.name.text = f.name
+                holder.path.gone()
+                var img = R.drawable.afe_ic_fileicon_file_light
+                if (f.isDirectory) {
+                    img = R.drawable.afe_ic_fileicon_folder_light
+                } else if (f.isImageFile()) {
+                    img = R.drawable.afe_ic_fileicon_image_light
+                } else if (f.isVideoFile()) {
+                    img = R.drawable.afe_ic_fileicon_video_light
+                } else if (f.isAudioFile()) {
+                    img = R.drawable.afe_ic_fileicon_audio_light
+                } else if (f.isTextFile()) {
+                    img = R.drawable.afe_ic_fileicon_text_light
+                }
+                holder.icon.setImageResource(img)
+            } else if (type == Item.TYPE_RETURN) {
+                holder.icon.setImageResource(R.drawable.afe_ic_fileicon_return_light)
+                holder.name.text = f.name
+                holder.path.text = f.absolutePath
+                holder.path.show()
             }
-            holder.icon.setImageResource(img)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
             val view = layoutInflater.inflate(R.layout.file_explorer_list_item, parent, false)
             val holder = Holder(view)
             holder.itemView.setOnClickListener {
-                val f = itemAt(holder.adapterPosition)
-                if (f.isDirectory) {
+                val item = itemAt(holder.adapterPosition)
+                val type = item.type
+                val f = item.file
+                if (type == Item.TYPE_FILE) {
+                    if (f.isDirectory) {
+                        showDir(f)
+                    } else {
+                        openFile(f, holder)
+                    }
+                } else if (type == Item.TYPE_RETURN) {
                     showDir(f)
-                } else {
-                    openFile(f, holder)
                 }
             }
             return holder
@@ -115,10 +140,15 @@ class FileExplorerActivity : AppCompatActivity() {
         val list = dir.listFiles().sortByName()
         if (list == null) {
             showError("访问 $dir 出错")
-        } else if (list.isEmpty()) {
-            showError("$dir 目录为空")
         } else {
-            showList(list.toList())
+            val data = ArrayList<Item>()
+            if (dir != rootDir) {
+                data.add(Item(Item.TYPE_RETURN, dir.parentFile))
+            }
+            list.forEach {
+                data.add(Item(Item.TYPE_FILE, it))
+            }
+            showList(data)
         }
     }
 
@@ -162,7 +192,7 @@ class FileExplorerActivity : AppCompatActivity() {
         }
     }
 
-    private fun showList(list: List<File>) {
+    private fun showList(list: List<Item>) {
         recyclerView.adapter = Adapter(list)
         recyclerView.show()
         tv_error.gone()
