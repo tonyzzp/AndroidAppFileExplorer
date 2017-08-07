@@ -158,6 +158,7 @@ class FileExplorerActivity : AppCompatActivity() {
             f.isImageFile() -> "image/*"
             f.isAudioFile() -> "audio/*"
             f.isVideoFile() -> "video/*"
+            f.isDatabase() -> "db/*"
             else -> ""
         }
 

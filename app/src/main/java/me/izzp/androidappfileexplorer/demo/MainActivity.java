@@ -62,18 +62,20 @@ public class MainActivity extends AppCompatActivity {
         class DbOpenHelper extends SQLiteOpenHelper {
 
             private DbOpenHelper() {
-                super(act, "testdb", null, 1);
+                super(act, "testdb", null, 4);
             }
 
             @Override
             public void onCreate(SQLiteDatabase db) {
                 db.execSQL("create table user(id integer,name text,age integer);");
-                db.execSQL("create table article(id integer primary key autoincrement,title text,content text);");
+                db.execSQL("create table article(id integer primary key autoincrement,title text,content text,auth text);");
             }
 
             @Override
             public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+                db.execSQL("drop table if exists user;");
+                db.execSQL("drop table if exists article;");
+                onCreate(db);
             }
         }
 
@@ -93,10 +95,11 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             ContentValues cv = new ContentValues();
             cv.put("title", "title" + i);
             cv.put("content", content);
+            cv.put("auth", "李白");
             db.insert("article", null, cv);
         }
         db.setTransactionSuccessful();

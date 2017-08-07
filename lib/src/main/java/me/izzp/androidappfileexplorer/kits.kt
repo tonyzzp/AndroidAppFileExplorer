@@ -11,6 +11,7 @@ import android.os.Looper
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Toast
+import java.io.DataInputStream
 import java.io.File
 import java.lang.ref.WeakReference
 import java.net.URLDecoder
@@ -41,6 +42,14 @@ internal fun Context.toastLong(s: String) {
     Toast.makeText(this, s, Toast.LENGTH_LONG).show()
 }
 
+internal fun Activity.alert(title: String?, message: String?) {
+    AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
+}
+
 internal val File.extension: String
     get() = name.substringAfter(".", "")
 
@@ -61,6 +70,20 @@ internal fun File.isImageFile(): Boolean = listOf("jpg", "png", "webp").contains
 internal fun File.isAudioFile(): Boolean = listOf("mp3", "ogg", "wav", "wma", "flac").containsIgnoreCase(extension)
 
 internal fun File.isVideoFile(): Boolean = listOf("mp4", "avi", "3gp", "wmv").containsIgnoreCase(extension)
+
+internal fun File.isDatabase(): Boolean {
+    if (!isFile) {
+        return false
+    }
+    val parent = parentFile.name
+    if (parent != "databases") {
+        return false
+    }
+    val inStream = DataInputStream(inputStream())
+    val magic = inStream.readInt()
+    inStream.close()
+    return magic == 0x53514c69
+}
 
 internal const val ACTION_VIEW = "me.izzp.androidappfileexplorer.ACTION_VIEW"
 
@@ -124,9 +147,11 @@ internal class AsyncFuture<T>(act: Activity, val ref: Ref.ObjectRef<T>) {
 
 
     private var m: ((t: T) -> Unit)? = null
+    private var delay = 0L
     private val actref = WeakReference(act)
     private val app: Application = act.application
     private var cb: ActivityLifeCycleAdapter? = null
+    private var cancel = false
 
     init {
         cb = object : ActivityLifeCycleAdapter() {
@@ -138,8 +163,14 @@ internal class AsyncFuture<T>(act: Activity, val ref: Ref.ObjectRef<T>) {
         app.registerActivityLifecycleCallbacks(cb)
     }
 
-    fun ui(block: (t: T) -> Unit) {
+    fun ui(delay: Long = 0L, block: (t: T) -> Unit): AsyncFuture<T> {
+        this.delay = delay
         m = block
+        return this
+    }
+
+    fun cancel() {
+        cancel = true
     }
 
     private fun release() {
@@ -153,15 +184,15 @@ internal class AsyncFuture<T>(act: Activity, val ref: Ref.ObjectRef<T>) {
     internal fun post() {
         fun valid(): Boolean {
             val a = actref.get()
-            return m != null && a != null && !a.isFinishing
+            return !cancel && m != null && a != null && !a.isFinishing
         }
         if (valid()) {
-            handler.post {
+            handler.postDelayed({
                 if (valid()) {
                     m!!.invoke(ref.element)
                 }
                 release()
-            }
+            }, delay)
         } else {
             release()
         }

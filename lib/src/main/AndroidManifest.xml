@@ -7,33 +7,50 @@
         <activity android:name=".TextViewerActivity">
             <intent-filter>
                 <action android:name="me.izzp.androidappfileexplorer.ACTION_VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/*" />
             </intent-filter>
         </activity>
         <activity android:name=".ImageViewerActivity">
             <intent-filter>
                 <action android:name="me.izzp.androidappfileexplorer.ACTION_VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
         <activity android:name=".AudioViewerActivity">
             <intent-filter>
                 <action android:name="me.izzp.androidappfileexplorer.ACTION_VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>
         <activity
             android:name=".VideoViewerActivity"
-
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="me.izzp.androidappfileexplorer.ACTION_VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="video/*" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".DBViewerActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize">
+            <intent-filter>
+                <action android:name="me.izzp.androidappfileexplorer.ACTION_VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="db/*" />
             </intent-filter>
         </activity>
     </application>

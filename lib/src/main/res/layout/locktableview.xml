@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/lockHeadView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/afe_table_head"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/lockHeadView_Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/afe_bg" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/white" />
+
+        <me.izzp.androidappfileexplorer.view.CustomHorizontalScrollView
+            android:id="@+id/lockHeadView_ScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/unLockHeadView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/afe_table_head"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <me.izzp.androidappfileexplorer.view.CustomHorizontalScrollView
+            android:id="@+id/unlockHeadView_ScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/table_scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" />
+</LinearLayout>
