@@ -50,6 +50,17 @@ internal fun Activity.alert(title: String?, message: String?) {
             .show()
 }
 
+internal fun formatFileSize(size: Long): String {
+    if (size < 1024) {
+        return "$size B"
+    } else if (size < 1024 * 1024) {
+        return String.format("%.2fKB", size / 1024f)
+    } else {
+        val mb = size / 1024f / 1024f
+        return String.format("%.2fMB", mb)
+    }
+}
+
 internal val File.extension: String
     get() = name.substringAfter(".", "")
 
@@ -140,7 +151,6 @@ internal open class ActivityLifeCycleAdapter : Application.ActivityLifecycleCall
 
     override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
     }
-
 }
 
 internal class AsyncFuture<T>(act: Activity, val ref: Ref.ObjectRef<T>) {

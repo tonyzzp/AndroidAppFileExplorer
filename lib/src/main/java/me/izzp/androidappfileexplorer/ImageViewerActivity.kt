@@ -18,5 +18,7 @@ class ImageViewerActivity : AppCompatActivity() {
         val bmp = BitmapFactory.decodeStream(inStream)
         inStream.close()
         img.setImageBitmap(bmp)
+        val fragment = FileInfoFragment.create(file)
+        supportFragmentManager.beginTransaction().add(fragment, "fileinfo").commit()
     }
 }

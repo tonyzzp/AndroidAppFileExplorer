@@ -13,7 +13,8 @@ class AudioViewerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.afe_activity_audio_viewer)
-        supportActionBar?.title = intent.data.toFile().name
+        val file = intent.data.toFile()
+        supportActionBar?.title = file.name
         volumeControlStream = AudioManager.STREAM_MUSIC
         player = MediaPlayer.create(this, intent.data)
         if (player != null) {
@@ -37,6 +38,8 @@ class AudioViewerActivity : AppCompatActivity() {
             tv.text = "读取音乐失败"
             btn.gone()
         }
+        val fragment = FileInfoFragment.create(file)
+        supportFragmentManager.beginTransaction().add(fragment, "fileinfo").commit()
     }
 
     override fun onPause() {

@@ -11,11 +11,14 @@ class TextViewerActivity : AppCompatActivity() {
         setContentView(R.layout.afe_activity_text_viewer)
 
         progress.show()
+        val f = intent.data.toFile()
         asyncFuture {
-            intent.data.toFile().readText()
+            f.readText()
         }.ui {
             progress.gone()
             tv.text = it
+            val fragment = FileInfoFragment.create(f)
+            supportFragmentManager.beginTransaction().add(fragment, "fileinfo").commit()
         }
     }
 }
