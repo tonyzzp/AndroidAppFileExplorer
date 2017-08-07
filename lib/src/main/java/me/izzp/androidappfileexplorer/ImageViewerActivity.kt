@@ -9,7 +9,7 @@ class ImageViewerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_image_view)
+        setContentView(R.layout.afe_activity_image_view)
 
         val file = intent.data.toFile()
         supportActionBar!!.title = file.name

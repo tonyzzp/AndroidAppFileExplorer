@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:background="@android:color/white" />
 
-        <me.izzp.androidappfileexplorer.view.CustomHorizontalScrollView
+        <me.izzp.androidappfileexplorer.locktableview.CustomHorizontalScrollView
             android:id="@+id/lockHeadView_ScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -41,7 +41,7 @@
         android:orientation="horizontal"
         android:visibility="gone">
 
-        <me.izzp.androidappfileexplorer.view.CustomHorizontalScrollView
+        <me.izzp.androidappfileexplorer.locktableview.CustomHorizontalScrollView
             android:id="@+id/unlockHeadView_ScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

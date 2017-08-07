@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:background="@color/afe_light_gray" />
 
-    <me.izzp.androidappfileexplorer.view.CustomHorizontalScrollView
+    <me.izzp.androidappfileexplorer.locktableview.CustomHorizontalScrollView
         android:id="@+id/lockScrollView_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

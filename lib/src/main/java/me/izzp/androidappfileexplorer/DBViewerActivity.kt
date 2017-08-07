@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_dbviewer.*
-import me.izzp.androidappfileexplorer.view.LockTableView
+import me.izzp.androidappfileexplorer.locktableview.LockTableView
 
 class DBViewerActivity : AppCompatActivity() {
 
@@ -42,7 +42,7 @@ class DBViewerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dbviewer)
+        setContentView(R.layout.afe_activity_dbviewer)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))

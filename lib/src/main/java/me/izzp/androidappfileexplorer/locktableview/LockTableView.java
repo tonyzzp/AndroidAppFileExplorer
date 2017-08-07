@@ -1,4 +1,4 @@
-package me.izzp.androidappfileexplorer.view;
+package me.izzp.androidappfileexplorer.locktableview;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -27,7 +27,7 @@ import me.izzp.androidappfileexplorer.R;
  * 创建时间 2017/3/29.
  * <p>
  *
- * <a href="https://github.com/RmondJone/LockTableView">源码来自</a>
+ * <a href="https://github.com/RmondJone/LockTableView">源码来自 RmondJone/LockTableView </a>
  */
 
 public class LockTableView {
@@ -182,7 +182,7 @@ public class LockTableView {
      * 初始化属性
      */
     private void initAttrs() {
-        mTableView = LayoutInflater.from(mContext).inflate(R.layout.locktableview, null);
+        mTableView = LayoutInflater.from(mContext).inflate(R.layout.afe_locktableview, null);
         maxColumnWidth = 100;
         minColumnWidth = 70;
         minRowHeight = 20;
@@ -424,7 +424,7 @@ public class LockTableView {
      * 创建锁定列视图
      */
     private void createLockColumnView() {
-        View lockTableViewContent = LayoutInflater.from(mContext).inflate(R.layout.locktablecontentview, null);
+        View lockTableViewContent = LayoutInflater.from(mContext).inflate(R.layout.afe_locktablecontentview, null);
         LinearLayout lockViewParent = (LinearLayout) lockTableViewContent.findViewById(R.id.lockView_parent);
         CustomHorizontalScrollView lockScrollViewParent = (CustomHorizontalScrollView) lockTableViewContent.findViewById(R.id.lockScrollView_parent);
         //构造锁定视图
@@ -565,7 +565,7 @@ public class LockTableView {
      * 创建不锁定列视图
      */
     private void createUnLockColumnView() {
-        View lockTableViewContent = LayoutInflater.from(mContext).inflate(R.layout.unlocktablecontentview, null);
+        View lockTableViewContent = LayoutInflater.from(mContext).inflate(R.layout.afe_customscrollview, null);
         CustomHorizontalScrollView lockScrollViewParent = (CustomHorizontalScrollView) lockTableViewContent.findViewById(R.id.unlockScrollView_parent);
         //构造滚动视图
         LinearLayout scollViewItemContentView = new LinearLayout(mContext);

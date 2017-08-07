@@ -14,7 +14,7 @@ class VideoViewerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        setContentView(R.layout.activity_video_viewer)
+        setContentView(R.layout.afe_activity_video_viewer)
         volumeControlStream = AudioManager.STREAM_MUSIC
 
         videoView.setVideoURI(intent.data)

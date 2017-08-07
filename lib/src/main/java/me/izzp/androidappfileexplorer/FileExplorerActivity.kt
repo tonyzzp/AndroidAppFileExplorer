@@ -75,7 +75,7 @@ class FileExplorerActivity : AppCompatActivity() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-            val view = layoutInflater.inflate(R.layout.file_explorer_list_item, parent, false)
+            val view = layoutInflater.inflate(R.layout.afe_file_explorer_list_item, parent, false)
             val holder = Holder(view)
             holder.itemView.setOnClickListener {
                 val item = itemAt(holder.adapterPosition)
@@ -110,7 +110,7 @@ class FileExplorerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_file_explorer)
+        setContentView(R.layout.afe_activity_file_explorer)
 
         actionBar.setDisplayShowHomeEnabled(true)
         actionBar.setDisplayHomeAsUpEnabled(true)

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <me.izzp.androidappfileexplorer.view.CustomHorizontalScrollView
+    <me.izzp.androidappfileexplorer.locktableview.CustomHorizontalScrollView
         android:id="@+id/unlockScrollView_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

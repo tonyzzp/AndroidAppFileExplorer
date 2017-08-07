@@ -8,7 +8,7 @@ class TextViewerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_text_viewer)
+        setContentView(R.layout.afe_activity_text_viewer)
 
         progress.show()
         asyncFuture {

@@ -1,4 +1,4 @@
-package me.izzp.androidappfileexplorer.view;
+package me.izzp.androidappfileexplorer.locktableview;
 
 import android.content.Context;
 
