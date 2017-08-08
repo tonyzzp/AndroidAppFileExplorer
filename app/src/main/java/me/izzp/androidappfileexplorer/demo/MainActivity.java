@@ -21,17 +21,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        AppFileExplorer.INSTANCE.showNotification(this);
+        AppFileExplorer.showNotification(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        AppFileExplorer.INSTANCE.hideNotification(this);
+        AppFileExplorer.dismissNotification(this);
     }
 
     public void onFileExplorerClick(View view) {
-        AppFileExplorer.INSTANCE.open(this);
+        AppFileExplorer.open(this);
     }
 
     public void onCreateTestFilesClick(View view) {

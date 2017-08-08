@@ -43,7 +43,7 @@ object AppFileExplorer {
     }
 
     @JvmStatic
-    fun hideNotification(context: Context) {
+    fun dismissNotification(context: Context) {
         val mgr = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         mgr.cancel(R.id.noti)
     }

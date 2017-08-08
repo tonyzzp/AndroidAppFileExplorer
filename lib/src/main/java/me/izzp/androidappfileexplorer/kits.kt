@@ -1,6 +1,5 @@
 package me.izzp.androidappfileexplorer
 
-import android.annotation.TargetApi
 import android.app.Activity
 import android.app.Application
 import android.content.Context
@@ -20,7 +19,6 @@ import java.lang.ref.WeakReference
 import java.net.URLDecoder
 import java.util.*
 import kotlin.jvm.internal.Ref
-import kotlin.reflect.KType
 
 /**
  * Created by zzp on 2017-08-02.
@@ -142,7 +140,7 @@ internal fun Uri.toFile(): File = File(URLDecoder.decode(toString().substringAft
  */
 internal fun Array<File>?.sortByName(): Array<File>? {
     Arrays.sort(this) { a, b ->
-        var rtn: Int
+        val rtn: Int
         if (a.isDirectory and b.isFile) {
             rtn = -1
         } else if (a.isFile and b.isDirectory) {
@@ -227,9 +225,8 @@ internal class AsyncFuture<T>(act: Activity, val ref: Ref.ObjectRef<T>) {
         cancel = true
     }
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private fun release() {
-        if (cb != null) {
+        if (cb != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             app.unregisterActivityLifecycleCallbacks(cb)
         }
         cb = null
