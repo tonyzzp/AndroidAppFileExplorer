@@ -6,7 +6,7 @@
 ### 如何使用
 
 #### 在根目录的build.gradle文件内添加
-```
+```gradle
 allprojects {
 	repositories {
 		...
@@ -16,7 +16,7 @@ allprojects {
 ```
 
 #### 在module目录内的build.gradle文件内添加
-```
+```gradle
 dependencies {
         compile 'com.github.tonyzzp:AndroidAppFileExplorer:0.2'
 }
@@ -28,7 +28,7 @@ AppFileExplorer.showNotification(context);
 ```
 
 #### 取消通知栏的入口
-```
+```java
 AppFileExplorer.dismissNotification(context);
 ```
 
