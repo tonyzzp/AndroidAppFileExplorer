@@ -14,7 +14,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 
-import me.izzp.androidappfileexplorer.FileExplorerActivity;
+import me.izzp.androidappfileexplorer.DirListActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onFileExplorerClick(View view) {
-        Intent intent = FileExplorerActivity.Companion.create(this, getFilesDir().getParent());
+        Intent intent = new Intent(this, DirListActivity.class);
         startActivity(intent);
     }
 

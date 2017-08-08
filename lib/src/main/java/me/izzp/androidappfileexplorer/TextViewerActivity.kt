@@ -9,9 +9,10 @@ class TextViewerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.afe_activity_text_viewer)
+        val f = intent.data.toFile()
+        supportActionBar?.title = f.name
 
         progress.show()
-        val f = intent.data.toFile()
         asyncFuture {
             f.readText()
         }.ui {

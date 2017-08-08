@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.afe_activity_dbviewer.*
 import me.izzp.androidappfileexplorer.locktableview.LockTableView
+import java.io.File
 
 class DBViewerActivity : AppCompatActivity() {
 
@@ -39,10 +40,15 @@ class DBViewerActivity : AppCompatActivity() {
     private var tables: List<String>? = null
     private var task: AsyncFuture<*>? = null
     private var contentShown = false
+    private val file: File by lazy {
+        intent.data.toFile()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.afe_activity_dbviewer)
+
+        supportActionBar?.title = file.name
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
@@ -51,25 +57,29 @@ class DBViewerActivity : AppCompatActivity() {
     }
 
     private fun loadTableList() {
+
+        fun showList(list: List<String>) {
+            progress.gone()
+            content.gone()
+            recyclerView.show()
+            recyclerView.adapter = Adapter(list)
+            contentShown = false
+            supportActionBar?.title = file.name
+        }
+
         if (tables == null) {
             progress.show()
             recyclerView.gone()
             content.gone()
             task = asyncFuture {
-                DbUtil.tables(intent.data.toFile())
+                DbUtil.tables(file)
             }.ui(100) {
-                contentShown = false
                 task = null
                 tables = it
-                progress.gone()
-                recyclerView.show()
-                recyclerView.adapter = Adapter(it)
+                showList(it!!)
             }
         } else {
-            progress.gone()
-            content.gone()
-            recyclerView.show()
-            contentShown = false
+            showList(tables!!)
         }
     }
 
@@ -77,7 +87,7 @@ class DBViewerActivity : AppCompatActivity() {
         progress.show()
         recyclerView.gone()
         task = asyncFuture {
-            DbUtil.getData(intent.data.toFile(), table)
+            DbUtil.getData(file, table)
         }.ui(100) {
             task = null
             contentShown = true
@@ -95,6 +105,7 @@ class DBViewerActivity : AppCompatActivity() {
                 }
             })
             grid.show()
+            supportActionBar?.title = "${file.name} - $table"
         }
     }
 

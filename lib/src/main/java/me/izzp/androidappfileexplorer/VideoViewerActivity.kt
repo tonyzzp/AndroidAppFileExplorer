@@ -15,12 +15,15 @@ class VideoViewerActivity : AppCompatActivity() {
         setContentView(R.layout.afe_activity_video_viewer)
         volumeControlStream = AudioManager.STREAM_MUSIC
 
+        val file = intent.data.toFile()
+        supportActionBar?.title = file.name
+
         videoView.setVideoURI(intent.data)
         videoView.start()
 
         videoView.setMediaController(controller)
 
-        val fragment = FileInfoFragment.create(intent.data.toFile())
+        val fragment = FileInfoFragment.create(file)
         supportFragmentManager.beginTransaction().add(fragment, "fileinfo").commit()
     }
 

@@ -49,11 +49,13 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="me.izzp.androidappfileexplorer.ACTION_VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="db/*" />
             </intent-filter>
         </activity>
+        <activity android:name=".DirListActivity" />
     </application>
 
 </manifest>

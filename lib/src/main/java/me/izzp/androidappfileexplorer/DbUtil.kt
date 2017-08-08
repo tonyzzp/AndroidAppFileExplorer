@@ -6,7 +6,7 @@ import java.io.File
 /**
  * Created by zzp on 2017-08-07.
  */
-object DbUtil {
+internal object DbUtil {
     fun tables(f: File): List<String> {
         val db = SQLiteDatabase.openDatabase(f.absolutePath, null, SQLiteDatabase.OPEN_READONLY)
         val c = db.query("sqlite_master", arrayOf("name"), "type=?", arrayOf("table"), null, null, null)
