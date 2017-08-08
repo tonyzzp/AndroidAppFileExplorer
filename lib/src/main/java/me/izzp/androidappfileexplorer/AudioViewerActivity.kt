@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.afe_activity_audio_viewer.*
 
-class AudioViewerActivity : AppCompatActivity() {
+internal class AudioViewerActivity : AppCompatActivity() {
 
     var player: MediaPlayer? = null
 

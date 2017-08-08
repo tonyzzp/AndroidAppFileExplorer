@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.MediaController
 import kotlinx.android.synthetic.main.afe_activity_video_viewer.*
 
-class VideoViewerActivity : AppCompatActivity() {
+internal class VideoViewerActivity : AppCompatActivity() {
 
     private val controller by lazy { MediaController(this) }
 

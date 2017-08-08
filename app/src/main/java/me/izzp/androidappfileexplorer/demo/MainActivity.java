@@ -3,7 +3,6 @@ package me.izzp.androidappfileexplorer.demo;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
@@ -14,7 +13,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 
-import me.izzp.androidappfileexplorer.DirListActivity;
+import me.izzp.androidappfileexplorer.AppFileExplorer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,11 +21,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AppFileExplorer.INSTANCE.showNotification(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppFileExplorer.INSTANCE.hideNotification(this);
     }
 
     public void onFileExplorerClick(View view) {
-        Intent intent = new Intent(this, DirListActivity.class);
-        startActivity(intent);
+        AppFileExplorer.INSTANCE.open(this);
     }
 
     public void onCreateTestFilesClick(View view) {

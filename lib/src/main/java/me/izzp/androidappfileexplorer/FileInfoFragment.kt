@@ -17,7 +17,7 @@ import java.io.File
  * Created by zzp on 2017-08-07.
  */
 
-class FileInfoFragment : Fragment() {
+internal class FileInfoFragment : Fragment() {
 
     companion object {
         fun create(file: File): FileInfoFragment {

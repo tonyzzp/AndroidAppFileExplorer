@@ -1,5 +1,6 @@
 package me.izzp.androidappfileexplorer
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -11,7 +12,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 
-class DirListActivity : AppCompatActivity() {
+internal class DirListActivity : AppCompatActivity() {
 
 
     private class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -61,5 +62,10 @@ class DirListActivity : AppCompatActivity() {
                 return holder
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        println("onNewIntent:$intent")
     }
 }

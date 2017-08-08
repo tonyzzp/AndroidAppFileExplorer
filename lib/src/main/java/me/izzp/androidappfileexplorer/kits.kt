@@ -20,6 +20,7 @@ import java.lang.ref.WeakReference
 import java.net.URLDecoder
 import java.util.*
 import kotlin.jvm.internal.Ref
+import kotlin.reflect.KType
 
 /**
  * Created by zzp on 2017-08-02.

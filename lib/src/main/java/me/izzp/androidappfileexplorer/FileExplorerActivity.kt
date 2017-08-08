@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.afe_activity_file_explorer.*
 import java.io.File
 import kotlin.properties.Delegates
 
-class FileExplorerActivity : AppCompatActivity() {
+internal class FileExplorerActivity : AppCompatActivity() {
 
     private class Item(val type: Int, val file: File) {
         companion object {

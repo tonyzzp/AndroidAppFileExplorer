@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.afe_activity_dbviewer.*
 import me.izzp.androidappfileexplorer.locktableview.LockTableView
 import java.io.File
 
-class DBViewerActivity : AppCompatActivity() {
+internal class DBViewerActivity : AppCompatActivity() {
 
     private inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tv = itemView.findViewById(android.R.id.text1) as TextView
