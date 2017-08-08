@@ -4,7 +4,8 @@
 这是一个内置在应用内的文件浏览器，可以方便查看`/data/data/PACKAGE`和`/sdcard/android/data/PACKAGE`目录内的文件，便于开发调试
 
 ### 如何使用
-在根目录的build.gradle文件内添加
+
+#### 在根目录的build.gradle文件内添加
 ```
 allprojects {
 	repositories {
@@ -26,7 +27,7 @@ dependencies {
 AppFileExplorer.showNotification(context);
 ```
 
-#### 取消通知
+#### 取消通知栏的入口
 ```
 AppFileExplorer.dismissNotification(context);
 ```
