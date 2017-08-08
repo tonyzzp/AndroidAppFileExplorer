@@ -14,24 +14,24 @@ allprojects {
 }
 ```
 
-在module目录内的build.gradle文件内添加
+#### 在module目录内的build.gradle文件内添加
 ```
 dependencies {
         compile 'com.github.tonyzzp:AndroidAppFileExplorer:0.2'
 }
 ```
 
-在通知栏显示入口
+#### 在通知栏显示入口
 ```java
 AppFileExplorer.showNotification(context);
 ```
 
-取消通知
+#### 取消通知
 ```
 AppFileExplorer.dismissNotification(context);
 ```
 
-打开文件浏览器
+#### 打开文件浏览器
 ```java
 AppFileExplorer.open(context);
 ```
