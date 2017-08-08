@@ -166,6 +166,7 @@ internal class FileExplorerActivity : AppCompatActivity() {
             if (type != "") {
                 val intent = Intent(ACTION_VIEW)
                 intent.setDataAndType(Uri.fromFile(f), type)
+                intent.`package` = packageName
                 val opts = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         this,
                         holder.icon,
