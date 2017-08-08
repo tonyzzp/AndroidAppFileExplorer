@@ -1,7 +1,12 @@
 package me.izzp.androidappfileexplorer
 
+import android.app.ProgressDialog
+import android.content.Intent
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.view.Menu
 import android.view.MenuInflater
@@ -41,6 +46,16 @@ class FileInfoFragment : Fragment() {
                 rtn = true
             }
             R.id.mi_open -> {
+                if (shouldShowConfirm()) {
+                    val message = "文件将被复制到sd卡上，并使用外部程序打开\n文件会保存到${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath}/afe目录"
+                    activity.confirmDialog(null, message, "打开", {
+                        PreferenceManager.getDefaultSharedPreferences(context)
+                                .edit().putBoolean("extenal_open_confirm", false).apply()
+                        open()
+                    }, "取消", null)
+                } else {
+                    open()
+                }
                 rtn = true
             }
         }
@@ -58,6 +73,38 @@ class FileInfoFragment : Fragment() {
             BitmapFactory.decodeFile(f.absolutePath, opts)
             sb.append("分辨率:${opts.outWidth} * ${opts.outHeight}")
         }
-        activity.alert(null, sb.toString())
+        activity.alertDialog(null, sb.toString())
+    }
+
+    private fun shouldShowConfirm(): Boolean {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("extenal_open_confirm", true)
+    }
+
+    private fun open() {
+        val progressDialog = ProgressDialog(context)
+        progressDialog.setCancelable(false)
+        progressDialog.setMessage("正在复制文件")
+        progressDialog.show()
+        activity.asyncFuture {
+            var flag = false
+            val src = File(arguments.getString("file"))
+            val dst = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "afe/${src.name}")
+            try {
+                src.copyTo(dst, true)
+                flag = true
+            } catch(e: Exception) {
+                e.printStackTrace()
+            }
+            flag to dst
+        }.ui(100) {
+            progressDialog.dismiss()
+            if (it.first) {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.setDataAndType(Uri.fromFile(it.second), it.second.getMIME())
+                startActivity(Intent.createChooser(intent, null))
+            } else {
+                activity.toastLong("复制文件失败")
+            }
+        }
     }
 }

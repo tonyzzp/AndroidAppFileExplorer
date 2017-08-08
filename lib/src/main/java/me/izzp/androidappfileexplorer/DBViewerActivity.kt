@@ -91,7 +91,7 @@ class DBViewerActivity : AppCompatActivity() {
                 }
 
                 override fun onItemClick(tv: TextView) {
-                    alert(null, tv.text.toString())
+                    alertDialog(null, tv.text.toString())
                 }
             })
             grid.show()

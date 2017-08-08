@@ -1,13 +1,16 @@
 package me.izzp.androidappfileexplorer
 
+import android.annotation.TargetApi
 import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.support.annotation.RequiresApi
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Toast
@@ -42,11 +45,30 @@ internal fun Context.toastLong(s: String) {
     Toast.makeText(this, s, Toast.LENGTH_LONG).show()
 }
 
-internal fun Activity.alert(title: String?, message: String?) {
+internal fun Activity.alertDialog(title: String?, message: String?) {
     AlertDialog.Builder(this)
             .setTitle(title)
             .setMessage(message)
             .setPositiveButton(android.R.string.ok, null)
+            .show()
+}
+
+internal fun Activity.confirmDialog(
+        title: String?,
+        message: String?,
+        positiveText: String,
+        positiveListener: (() -> Unit)?,
+        negativeText: String,
+        negativeListener: (() -> Unit)?) {
+    AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(positiveText, { _, _ ->
+                positiveListener?.invoke()
+            })
+            .setNegativeButton(negativeText, { _, _ ->
+                negativeListener?.invoke()
+            })
             .show()
 }
 
@@ -81,6 +103,14 @@ internal fun File.isImageFile(): Boolean = listOf("jpg", "png", "webp").contains
 internal fun File.isAudioFile(): Boolean = listOf("mp3", "ogg", "wav", "wma", "flac").containsIgnoreCase(extension)
 
 internal fun File.isVideoFile(): Boolean = listOf("mp4", "avi", "3gp", "wmv").containsIgnoreCase(extension)
+
+internal fun File.getMIME(): String? = when {
+    isTextFile() -> "text/*"
+    isImageFile() -> "image/*"
+    isAudioFile() -> "audio/*"
+    isVideoFile() -> "video/*"
+    else -> null
+}
 
 internal fun File.isDatabase(): Boolean {
     if (!isFile) {
@@ -126,10 +156,20 @@ internal fun Array<File>?.sortByName(): Array<File>? {
     return this
 }
 
+internal fun File.mkParentDirs() {
+    if (!exists()) {
+        val parent = parentFile
+        if (!parent.exists()) {
+            parent.mkdirs()
+        }
+    }
+}
+
 private val handler: Handler by lazy {
     Handler(Looper.getMainLooper())
 }
 
+@RequiresApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 internal open class ActivityLifeCycleAdapter : Application.ActivityLifecycleCallbacks {
     override fun onActivityPaused(activity: Activity?) {
     }
@@ -164,13 +204,16 @@ internal class AsyncFuture<T>(act: Activity, val ref: Ref.ObjectRef<T>) {
     private var cancel = false
 
     init {
-        cb = object : ActivityLifeCycleAdapter() {
-            override fun onActivityDestroyed(activity: Activity?) {
-                super.onActivityDestroyed(activity)
-                release()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            cb = object : ActivityLifeCycleAdapter() {
+                @RequiresApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+                override fun onActivityDestroyed(activity: Activity?) {
+                    super.onActivityDestroyed(activity)
+                    release()
+                }
             }
+            app.registerActivityLifecycleCallbacks(cb)
         }
-        app.registerActivityLifecycleCallbacks(cb)
     }
 
     fun ui(delay: Long = 0L, block: (t: T) -> Unit): AsyncFuture<T> {
@@ -183,6 +226,7 @@ internal class AsyncFuture<T>(act: Activity, val ref: Ref.ObjectRef<T>) {
         cancel = true
     }
 
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private fun release() {
         if (cb != null) {
             app.unregisterActivityLifecycleCallbacks(cb)
