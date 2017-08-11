@@ -25,6 +25,7 @@ internal class DBViewerActivity : AppCompatActivity() {
 
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): Holder {
             val view = layoutInflater.inflate(android.R.layout.simple_list_item_1, parent, false)
+            view.setBackgroundResource(R.drawable.afe_background_selector)
             val holder = Holder(view)
             view.setOnClickListener {
                 loadTableData(list[holder.adapterPosition])
@@ -72,6 +73,7 @@ internal class DBViewerActivity : AppCompatActivity() {
             recyclerView.gone()
             content.gone()
             task = asyncFuture {
+                Thread.sleep(5000)
                 DbUtil.tables(file)
             }.ui(100) {
                 task = null
@@ -105,7 +107,7 @@ internal class DBViewerActivity : AppCompatActivity() {
                 }
             })
             grid.show()
-            supportActionBar?.title = "${file.name} - $table"
+            supportActionBar?.title = "${file.name} - $table (${DbUtil.count(file, table)} 条数据)"
         }
     }
 

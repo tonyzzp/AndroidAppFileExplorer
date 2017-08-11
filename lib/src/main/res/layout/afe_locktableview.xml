@@ -52,5 +52,5 @@
         android:id="@+id/table_scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none" />
+        android:scrollbars="vertical" />
 </LinearLayout>

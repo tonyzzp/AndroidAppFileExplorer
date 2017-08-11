@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 import me.izzp.androidappfileexplorer.AppFileExplorer;
+import me.izzp.androidappfileexplorer.DbUtil;
 
 public class MainActivity extends AppCompatActivity {
 

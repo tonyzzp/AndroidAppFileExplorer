@@ -170,25 +170,25 @@ private val handler: Handler by lazy {
 
 @RequiresApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 internal open class ActivityLifeCycleAdapter : Application.ActivityLifecycleCallbacks {
-    override fun onActivityPaused(activity: Activity?) {
+    override fun onActivityPaused(activity: Activity) {
     }
 
-    override fun onActivityResumed(activity: Activity?) {
+    override fun onActivityResumed(activity: Activity) {
     }
 
-    override fun onActivityStarted(activity: Activity?) {
+    override fun onActivityStarted(activity: Activity) {
     }
 
-    override fun onActivityDestroyed(activity: Activity?) {
+    override fun onActivityDestroyed(activity: Activity) {
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
     }
 
-    override fun onActivityStopped(activity: Activity?) {
+    override fun onActivityStopped(activity: Activity) {
     }
 
-    override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
     }
 }
 
@@ -206,9 +206,12 @@ internal class AsyncFuture<T>(act: Activity, val ref: Ref.ObjectRef<T>) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             cb = object : ActivityLifeCycleAdapter() {
                 @RequiresApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-                override fun onActivityDestroyed(activity: Activity?) {
+                override fun onActivityDestroyed(activity: Activity) {
                     super.onActivityDestroyed(activity)
-                    release()
+                    val act = actref.get()
+                    if (activity == act) {
+                        release()
+                    }
                 }
             }
             app.registerActivityLifecycleCallbacks(cb)

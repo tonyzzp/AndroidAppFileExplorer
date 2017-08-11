@@ -56,7 +56,8 @@
         <activity
             android:name=".DBViewerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:taskAffinity=".afe">
+            android:taskAffinity=".afe"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
             <intent-filter>
                 <action android:name="me.izzp.androidappfileexplorer.ACTION_VIEW" />
 

@@ -18,6 +18,17 @@ internal object DbUtil {
         return list
     }
 
+    fun count(f: File, table: String): Int {
+        var rtn = 0
+        val db = SQLiteDatabase.openDatabase(f.absolutePath, null, SQLiteDatabase.OPEN_READONLY)
+        val c = db.query(table, arrayOf("count(*)"), null, null, null, null, null)
+        if (c.moveToNext()) {
+            rtn = c.getInt(0)
+        }
+        c.close()
+        return rtn;
+    }
+
     fun getData(f: File, table: String): ArrayList<ArrayList<String>> {
         val db = SQLiteDatabase.openDatabase(f.absolutePath, null, SQLiteDatabase.OPEN_READONLY)
         val c = db.query(table, null, null, null, null, null, null)
