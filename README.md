@@ -3,6 +3,15 @@
 ### 这是什么
 这是一个内置在应用内的文件浏览器，可以方便查看`/data/data/PACKAGE`和`/sdcard/android/data/PACKAGE`目录内的文件，便于开发调试
 
+
+### 支持的功能
+1. 查看文本
+2. 查看SharedPreferences
+3. 查看音频
+4. 查看视频
+5. 查看图片
+6. 查看数据库
+
 ### 如何使用
 
 #### 在根目录的build.gradle文件内添加
@@ -18,7 +27,7 @@ allprojects {
 #### 在module目录内的build.gradle文件内添加
 ```gradle
 dependencies {
-        compile 'com.github.tonyzzp:AndroidAppFileExplorer:0.2'
+        compile 'com.github.tonyzzp:AndroidAppFileExplorer:0.3'
 }
 ```
 
