@@ -28,7 +28,10 @@ internal class DBViewerActivity : AppCompatActivity() {
             view.setBackgroundResource(R.drawable.afe_background_selector)
             val holder = Holder(view)
             view.setOnClickListener {
-                loadTableData(list[holder.adapterPosition])
+                table = list[holder.adapterPosition]
+                index = 0
+                count = DbUtil.count(file, table)
+                loadTableData()
             }
             return holder
         }
@@ -44,6 +47,9 @@ internal class DBViewerActivity : AppCompatActivity() {
     private val file: File by lazy {
         intent.data.toFile()
     }
+    private var table: String = ""
+    private var index = 0
+    private var count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,14 +60,30 @@ internal class DBViewerActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
 
+        btn_pre.setOnClickListener {
+            index -= 50
+            loadTableData()
+        }
+        btn_next.setOnClickListener {
+            index += 50
+            loadTableData()
+        }
         loadTableList()
     }
 
-    private fun loadTableList() {
+    private fun refreshButtonStatus() {
+        btn_pre.isEnabled = index != 0
+        btn_next.isEnabled = (count - index) > 50
+        val start = index + 1
+        val total = count
+        val count = Math.min(50, total - start + 1)
+        tv_page.text = "当前页:$start-${start + count - 1}/$total"
+    }
 
+    private fun loadTableList() {
         fun showList(list: List<String>) {
             progress.gone()
-            content.gone()
+            contentPanel.gone()
             recyclerView.show()
             recyclerView.adapter = Adapter(list)
             contentShown = false
@@ -71,9 +93,8 @@ internal class DBViewerActivity : AppCompatActivity() {
         if (tables == null) {
             progress.show()
             recyclerView.gone()
-            content.gone()
+            contentPanel.gone()
             task = asyncFuture {
-                Thread.sleep(5000)
                 DbUtil.tables(file)
             }.ui(100) {
                 task = null
@@ -85,17 +106,19 @@ internal class DBViewerActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadTableData(table: String) {
+    private fun loadTableData() {
         progress.show()
         recyclerView.gone()
+        contentPanel.gone()
         task = asyncFuture {
-            DbUtil.getData(file, table)
+            DbUtil.getData(file, table, index, 50)
         }.ui(100) {
             task = null
             contentShown = true
             progress.gone()
-            content.show()
-            val grid = LockTableView(this, content, it)
+            contentPanel.show()
+            refreshButtonStatus()
+            val grid = LockTableView(this, table_container, it)
             grid.setLockFristColumn(true)
             grid.setLockFristRow(true)
             grid.setTableViewListener(object : LockTableView.OnTableViewListener {
@@ -107,7 +130,7 @@ internal class DBViewerActivity : AppCompatActivity() {
                 }
             })
             grid.show()
-            supportActionBar?.title = "${file.name} - $table (${DbUtil.count(file, table)} 条数据)"
+            supportActionBar?.title = "${file.name} - $table"
         }
     }
 

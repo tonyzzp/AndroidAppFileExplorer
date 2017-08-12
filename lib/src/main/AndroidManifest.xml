@@ -7,9 +7,11 @@
     <application android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
         <activity
             android:name=".FileExplorerActivity"
+            android:exported="false"
             android:taskAffinity=".afe" />
         <activity
             android:name=".TextViewerActivity"
+            android:exported="false"
             android:taskAffinity=".afe">
             <intent-filter>
                 <action android:name="me.izzp.androidappfileexplorer.ACTION_VIEW" />
@@ -21,6 +23,7 @@
         </activity>
         <activity
             android:name=".ImageViewerActivity"
+            android:exported="false"
             android:taskAffinity=".afe">
             <intent-filter>
                 <action android:name="me.izzp.androidappfileexplorer.ACTION_VIEW" />
@@ -32,6 +35,7 @@
         </activity>
         <activity
             android:name=".AudioViewerActivity"
+            android:exported="false"
             android:taskAffinity=".afe">
             <intent-filter>
                 <action android:name="me.izzp.androidappfileexplorer.ACTION_VIEW" />
@@ -44,6 +48,7 @@
         <activity
             android:name=".VideoViewerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:taskAffinity=".afe">
             <intent-filter>
                 <action android:name="me.izzp.androidappfileexplorer.ACTION_VIEW" />
@@ -56,8 +61,7 @@
         <activity
             android:name=".DBViewerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:taskAffinity=".afe"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+            android:exported="false">
             <intent-filter>
                 <action android:name="me.izzp.androidappfileexplorer.ACTION_VIEW" />
 
@@ -69,6 +73,7 @@
         <activity
             android:name=".DirListActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:exported="false"
             android:launchMode="singleTask"
             android:taskAffinity=".afe" />
     </application>

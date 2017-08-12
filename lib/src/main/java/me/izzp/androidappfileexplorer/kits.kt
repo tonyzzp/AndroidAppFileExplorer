@@ -194,7 +194,6 @@ internal open class ActivityLifeCycleAdapter : Application.ActivityLifecycleCall
 
 internal class AsyncFuture<T>(act: Activity, val ref: Ref.ObjectRef<T>) {
 
-
     private var m: ((t: T) -> Unit)? = null
     private var delay = 0L
     private val actref = WeakReference(act)

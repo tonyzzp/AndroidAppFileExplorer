@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.IOException;
 
 import me.izzp.androidappfileexplorer.AppFileExplorer;
-import me.izzp.androidappfileexplorer.DbUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         class DbOpenHelper extends SQLiteOpenHelper {
 
             private DbOpenHelper() {
-                super(act, "testdb", null, 4);
+                super(act, "testdb", null, 8);
             }
 
             @Override
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         DbOpenHelper helper = new DbOpenHelper();
         SQLiteDatabase db = helper.getWritableDatabase();
         db.beginTransaction();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 13; i++) {
             ContentValues cv = new ContentValues();
             cv.put("id", i);
             cv.put("name", "name" + i);
@@ -101,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 120; i++) {
             ContentValues cv = new ContentValues();
             cv.put("title", "title" + i);
             cv.put("content", content);

@@ -15,6 +15,7 @@ internal object DbUtil {
             list += c.getString(0)
         }
         c.close()
+        db.close()
         return list
     }
 
@@ -26,12 +27,13 @@ internal object DbUtil {
             rtn = c.getInt(0)
         }
         c.close()
+        db.close()
         return rtn;
     }
 
-    fun getData(f: File, table: String): ArrayList<ArrayList<String>> {
+    fun getData(f: File, table: String, index: Int, count: Int): ArrayList<ArrayList<String>> {
         val db = SQLiteDatabase.openDatabase(f.absolutePath, null, SQLiteDatabase.OPEN_READONLY)
-        val c = db.query(table, null, null, null, null, null, null)
+        val c = db.query(table, null, null, null, null, null, null, "$index,$count")
         val count = c.columnCount
         val data = ArrayList<ArrayList<String>>()
         val title = ArrayList<String>(count)
@@ -47,6 +49,7 @@ internal object DbUtil {
             data += list
         }
         c.close()
+        db.close()
         return data
     }
 }
