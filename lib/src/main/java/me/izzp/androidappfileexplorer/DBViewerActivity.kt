@@ -95,11 +95,22 @@ internal class DBViewerActivity : AppCompatActivity() {
             recyclerView.gone()
             contentPanel.gone()
             task = asyncFuture {
-                DbUtil.tables(file)
+                var rtn: List<String>? = null
+                try {
+                    rtn = DbUtil.tables(file)
+                } catch(e: Exception) {
+                }
+                rtn
             }.ui(100) {
                 task = null
-                tables = it
-                showList(it!!)
+                if (it == null) {
+                    alertDialog(null, "打开数据库失败") {
+                        finish()
+                    }
+                } else {
+                    tables = it
+                    showList(it!!)
+                }
             }
         } else {
             showList(tables!!)

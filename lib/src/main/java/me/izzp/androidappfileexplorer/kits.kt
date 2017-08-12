@@ -44,11 +44,14 @@ internal fun Context.toastLong(s: String) {
     Toast.makeText(this, s, Toast.LENGTH_LONG).show()
 }
 
-internal fun Activity.alertDialog(title: String?, message: String?) {
+internal fun Activity.alertDialog(title: String?, message: String?, positiveListener: (() -> Unit)? = null) {
     AlertDialog.Builder(this)
             .setTitle(title)
             .setMessage(message)
-            .setPositiveButton(android.R.string.ok, null)
+            .setCancelable(positiveListener == null)
+            .setPositiveButton(android.R.string.ok) { dialog, which ->
+                positiveListener?.invoke()
+            }
             .show()
 }
 
@@ -83,7 +86,7 @@ internal fun formatFileSize(size: Long): String {
 }
 
 internal val File.extension: String
-    get() = name.substringAfter(".", "")
+    get() = name.substringAfterLast(".", "")
 
 internal fun Collection<String>.containsIgnoreCase(s: String): Boolean {
     val s = s.toLowerCase()

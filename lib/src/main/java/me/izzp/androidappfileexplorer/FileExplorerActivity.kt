@@ -178,13 +178,14 @@ internal class FileExplorerActivity : AppCompatActivity() {
         }
 
         if (type == "") {
-            val strs = arrayOf("文本", "图片", "音频", "视频")
+            val strs = arrayOf("文本", "图片", "音频", "视频", "数据库")
             showItemsDialog(strs) { _, which ->
                 type = when (which) {
                     0 -> "text/*"
                     1 -> "image/*"
                     2 -> "audio/*"
                     3 -> "video/*"
+                    4 -> "db/*"
                     else -> ""
                 }
                 open()
