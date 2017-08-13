@@ -98,9 +98,9 @@ internal fun Collection<String>.containsIgnoreCase(s: String): Boolean {
     return false
 }
 
-internal fun File.isTextFile(): Boolean = listOf("txt", "xml", "md").containsIgnoreCase(extension)
+internal fun File.isTextFile(): Boolean = listOf("txt", "xml", "md", "log").containsIgnoreCase(extension)
 
-internal fun File.isImageFile(): Boolean = listOf("jpg", "png", "webp").containsIgnoreCase(extension)
+internal fun File.isImageFile(): Boolean = listOf("jpg", "png", "webp", "gif").containsIgnoreCase(extension)
 
 internal fun File.isAudioFile(): Boolean = listOf("mp3", "ogg", "wav", "wma", "flac").containsIgnoreCase(extension)
 
