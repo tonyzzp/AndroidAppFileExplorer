@@ -6,12 +6,15 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import me.izzp.androidappfileexplorer.AppFileExplorer;
 
@@ -22,6 +25,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AppFileExplorer.showNotification(this);
+        List<String> list = new ArrayList<>();
+        list.add(Environment.getExternalStorageState());
+        list.add(Environment.getExternalStorageDirectory().getAbsolutePath());
+        list.add(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
+        AppFileExplorer.addDirs(list);
     }
 
     @Override

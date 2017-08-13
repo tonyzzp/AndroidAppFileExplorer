@@ -12,6 +12,19 @@ import android.support.v7.app.NotificationCompat
  */
 object AppFileExplorer {
 
+    val customDirs = ArrayList<String>()
+
+    /**
+     * 增加一些需要显示的目录
+     */
+    @JvmStatic
+    fun addDirs(dirs: List<String>) {
+        customDirs += dirs
+    }
+
+    /**
+     * 打开文件浏览器
+     */
     @JvmStatic
     fun open(context: Context) {
         val intent = Intent(context, DirListActivity::class.java)
@@ -21,6 +34,9 @@ object AppFileExplorer {
         context.startActivity(intent)
     }
 
+    /**
+     * 在通知栏显示入口
+     */
     @JvmStatic
     fun showNotification(context: Context) {
         val context = context.applicationContext
@@ -40,6 +56,9 @@ object AppFileExplorer {
         mgr.notify(R.id.noti, noti)
     }
 
+    /**
+     * 取消通知栏入口
+     */
     @JvmStatic
     fun dismissNotification(context: Context) {
         val mgr = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
