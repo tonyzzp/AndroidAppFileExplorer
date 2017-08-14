@@ -45,3 +45,6 @@ AppFileExplorer.dismissNotification(context);
 ```java
 AppFileExplorer.open(context);
 ```
+
+#### 提示
+如果你在manifst内为application设置了theme,那你需要在application节点内增加`tools:replace="theme"`
