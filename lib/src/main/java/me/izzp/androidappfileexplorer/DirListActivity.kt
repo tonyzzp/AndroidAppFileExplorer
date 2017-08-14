@@ -39,6 +39,9 @@ internal class DirListActivity : AppCompatActivity() {
         } else {
             dirs["External Data Dir"] = getExternalFilesDir("afe").parentFile.parent
         }
+        AppFileExplorer.customDirs.forEachIndexed { index, s ->
+            dirs["Dir $index"] = s
+        }
         val list = dirs.toList()
         println(list)
         recyclerView.adapter = object : RecyclerView.Adapter<Holder>() {

@@ -27,7 +27,7 @@ allprojects {
 #### 在module目录内的build.gradle文件内添加
 ```gradle
 dependencies {
-        compile 'com.github.tonyzzp:AndroidAppFileExplorer:0.4'
+        compile 'com.github.tonyzzp:AndroidAppFileExplorer:0.5'
 }
 ```
 
