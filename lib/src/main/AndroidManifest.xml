@@ -4,15 +4,17 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <application android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+    <application>
         <activity
             android:name=".FileExplorerActivity"
             android:exported="false"
-            android:taskAffinity=".afe" />
+            android:taskAffinity=".afe"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
             android:name=".TextViewerActivity"
             android:exported="false"
-            android:taskAffinity=".afe">
+            android:taskAffinity=".afe"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
             <intent-filter>
                 <action android:name="me.izzp.androidappfileexplorer.ACTION_VIEW" />
 
@@ -24,7 +26,8 @@
         <activity
             android:name=".ImageViewerActivity"
             android:exported="false"
-            android:taskAffinity=".afe">
+            android:taskAffinity=".afe"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
             <intent-filter>
                 <action android:name="me.izzp.androidappfileexplorer.ACTION_VIEW" />
 
@@ -36,7 +39,8 @@
         <activity
             android:name=".AudioViewerActivity"
             android:exported="false"
-            android:taskAffinity=".afe">
+            android:taskAffinity=".afe"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
             <intent-filter>
                 <action android:name="me.izzp.androidappfileexplorer.ACTION_VIEW" />
 
@@ -49,7 +53,8 @@
             android:name=".VideoViewerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:exported="false"
-            android:taskAffinity=".afe">
+            android:taskAffinity=".afe"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
             <intent-filter>
                 <action android:name="me.izzp.androidappfileexplorer.ACTION_VIEW" />
 
@@ -61,7 +66,8 @@
         <activity
             android:name=".DBViewerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
             <intent-filter>
                 <action android:name="me.izzp.androidappfileexplorer.ACTION_VIEW" />
 
@@ -75,6 +81,7 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:exported="false"
             android:launchMode="singleTask"
-            android:taskAffinity=".afe" />
+            android:taskAffinity=".afe"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
     </application>
 </manifest>

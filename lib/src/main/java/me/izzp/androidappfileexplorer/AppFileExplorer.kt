@@ -53,7 +53,7 @@ object AppFileExplorer {
                 .setContentIntent(pi)
                 .build()
         val mgr = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        mgr.notify(R.id.noti, noti)
+        mgr.notify(R.id.afe_noti, noti)
     }
 
     /**
@@ -62,6 +62,6 @@ object AppFileExplorer {
     @JvmStatic
     fun dismissNotification(context: Context) {
         val mgr = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        mgr.cancel(R.id.noti)
+        mgr.cancel(R.id.afe_noti)
     }
 }
