@@ -20,5 +20,8 @@ internal class ImageViewerActivity : AppCompatActivity() {
         img.setImageBitmap(bmp)
         val fragment = FileInfoFragment.create(file)
         supportFragmentManager.beginTransaction().add(fragment, "fileinfo").commit()
+        if (bmp != null) {
+            fragment.mime = "image/*"
+        }
     }
 }

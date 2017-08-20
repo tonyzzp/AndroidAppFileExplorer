@@ -17,6 +17,7 @@ import java.io.DataInputStream
 import java.io.File
 import java.lang.ref.WeakReference
 import java.net.URLDecoder
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.jvm.internal.Ref
 
@@ -84,6 +85,10 @@ internal fun formatFileSize(size: Long): String {
         return String.format("%.2fMB", mb)
     }
 }
+
+internal val dateTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
+internal fun dateTime(time: Long) = dateTime.format(Date(time))
 
 internal val File.extension: String
     get() = name.substringAfterLast(".", "")

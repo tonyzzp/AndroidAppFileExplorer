@@ -20,6 +20,7 @@ internal class TextViewerActivity : AppCompatActivity() {
             tv.text = it
             val fragment = FileInfoFragment.create(f)
             supportFragmentManager.beginTransaction().add(fragment, "fileinfo").commit()
+            fragment.mime = "text/*"
         }
     }
 }

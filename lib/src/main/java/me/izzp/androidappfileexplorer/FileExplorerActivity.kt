@@ -29,6 +29,16 @@ internal class FileExplorerActivity : AppCompatActivity() {
             const val TYPE_FILE = 2
             const val TYPE_RETURN = 3
         }
+
+        val desc: String by lazy {
+            var result = ""
+            if (file.isFile) {
+                val time = file.lastModified()
+                val size = formatFileSize(file.length())
+                result = "修改时间:${dateTime(time)}  大小:$size"
+            }
+            result
+        }
     }
 
     companion object {
@@ -52,7 +62,12 @@ internal class FileExplorerActivity : AppCompatActivity() {
             val type = item.type
             if (type == Item.TYPE_FILE) {
                 holder.name.text = f.name
-                holder.path.gone()
+                val desc = item.desc
+                if (desc.isEmpty()) {
+                    holder.path.gone()
+                } else {
+                    holder.path.text = desc
+                }
                 var img = R.drawable.afe_ic_fileicon_file_light
                 if (f.isDirectory) {
                     img = R.drawable.afe_ic_fileicon_folder_light

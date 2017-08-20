@@ -25,6 +25,7 @@ internal class VideoViewerActivity : AppCompatActivity() {
 
         val fragment = FileInfoFragment.create(file)
         supportFragmentManager.beginTransaction().add(fragment, "fileinfo").commit()
+        fragment.mime = "video/*"
     }
 
     override fun onResume() {

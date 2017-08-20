@@ -29,6 +29,8 @@ internal class FileInfoFragment : Fragment() {
         }
     }
 
+    var mime: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -100,7 +102,7 @@ internal class FileInfoFragment : Fragment() {
             progressDialog.dismiss()
             if (it.first) {
                 val intent = Intent(Intent.ACTION_VIEW)
-                intent.setDataAndType(Uri.fromFile(it.second), it.second.getMIME())
+                intent.setDataAndType(Uri.fromFile(it.second), mime)
                 startActivity(Intent.createChooser(intent, null))
             } else {
                 activity.toastLong("复制文件失败")
