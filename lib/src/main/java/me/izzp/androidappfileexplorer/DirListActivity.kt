@@ -53,7 +53,7 @@ internal class DirListActivity : AppCompatActivity() {
                 holder.desc.text = item.second
             }
 
-            override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): Holder {
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
                 val view = layoutInflater.inflate(android.R.layout.simple_list_item_2, parent, false)
                 view.setBackgroundResource(R.drawable.afe_background_selector)
                 val holder = Holder(view)

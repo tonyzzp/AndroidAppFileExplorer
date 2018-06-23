@@ -36,8 +36,8 @@ internal class FileInfoFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        activity.menuInflater.inflate(R.menu.afe_fileinfo, menu)
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+        inflater.inflate(R.menu.afe_fileinfo, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -50,7 +50,7 @@ internal class FileInfoFragment : Fragment() {
             R.id.mi_open -> {
                 if (shouldShowConfirm()) {
                     val message = "文件将被复制到sd卡上，并使用外部程序打开\n文件会保存到${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath}/afe目录"
-                    activity.confirmDialog(null, message, "打开", {
+                    activity!!.confirmDialog(null, message, "打开", {
                         PreferenceManager.getDefaultSharedPreferences(context)
                                 .edit().putBoolean("extenal_open_confirm", false).apply()
                         open()
@@ -65,7 +65,7 @@ internal class FileInfoFragment : Fragment() {
     }
 
     private fun showInfoDialog() {
-        val f = File(arguments.getString("file"))
+        val f = File(arguments!!.getString("file"))
         val sb = StringBuilder()
         sb.append("路径:${f.absolutePath}\n\n")
         sb.append("大小:${formatFileSize(f.length())}\n\n")
@@ -75,7 +75,7 @@ internal class FileInfoFragment : Fragment() {
             BitmapFactory.decodeFile(f.absolutePath, opts)
             sb.append("分辨率:${opts.outWidth} * ${opts.outHeight}")
         }
-        activity.alertDialog(null, sb.toString())
+        activity!!.alertDialog(null, sb.toString())
     }
 
     private fun shouldShowConfirm(): Boolean {
@@ -87,9 +87,9 @@ internal class FileInfoFragment : Fragment() {
         progressDialog.setCancelable(false)
         progressDialog.setMessage("正在复制文件")
         progressDialog.show()
-        activity.asyncFuture {
+        activity!!.asyncFuture {
             var flag = false
-            val src = File(arguments.getString("file"))
+            val src = File(arguments!!.getString("file"))
             val dst = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "afe/${src.name}")
             try {
                 src.copyTo(dst, true)
@@ -105,7 +105,7 @@ internal class FileInfoFragment : Fragment() {
                 intent.setDataAndType(Uri.fromFile(it.second), mime)
                 startActivity(Intent.createChooser(intent, null))
             } else {
-                activity.toastLong("复制文件失败")
+                activity!!.toastLong("复制文件失败")
             }
         }
     }

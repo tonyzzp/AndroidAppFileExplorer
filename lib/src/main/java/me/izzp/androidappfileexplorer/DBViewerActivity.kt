@@ -23,7 +23,7 @@ internal class DBViewerActivity : AppCompatActivity() {
 
         override fun getItemCount() = list.size
 
-        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): Holder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
             val view = layoutInflater.inflate(android.R.layout.simple_list_item_1, parent, false)
             view.setBackgroundResource(R.drawable.afe_background_selector)
             val holder = Holder(view)

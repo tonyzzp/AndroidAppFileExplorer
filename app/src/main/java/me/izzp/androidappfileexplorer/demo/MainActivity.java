@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         AppFileExplorer.showNotification(this);
         List<String> list = new ArrayList<>();
-        list.add(Environment.getExternalStorageState());
         list.add(Environment.getExternalStorageDirectory().getAbsolutePath());
         list.add(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
         AppFileExplorer.addDirs(list);

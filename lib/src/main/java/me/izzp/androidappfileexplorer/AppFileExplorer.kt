@@ -1,11 +1,13 @@
 package me.izzp.androidappfileexplorer
 
 import android.app.Activity
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.NotificationCompat
+import android.os.Build
+import android.support.v4.app.NotificationCompat
 
 /**
  * Created by zzp on 2017-08-08.
@@ -43,7 +45,7 @@ object AppFileExplorer {
         val intent = Intent(context, DirListActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         val pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val noti = NotificationCompat.Builder(context)
+        val noti = NotificationCompat.Builder(context, NotificationChannel.DEFAULT_CHANNEL_ID)
                 .setContentTitle("点击打开FileExplorer")
                 .setOngoing(true)
                 .setDefaults(0)
