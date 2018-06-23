@@ -11,6 +11,7 @@
 4. 查看视频
 5. 查看图片
 6. 查看数据库
+7. 把文件复制到sd卡并使用外部软件打开
 
 ### 如何使用
 
@@ -27,11 +28,14 @@ allprojects {
 #### 在module目录内的build.gradle文件内添加
 ```gradle
 dependencies {
-        compile 'com.github.tonyzzp:AndroidAppFileExplorer:0.7'
+        compile 'com.github.tonyzzp:AndroidAppFileExplorer:0.8'
+        compile 'com.github.tonyzzp:AndroidAppFileExplorer:master-SNAPSHOT' //使用master最新版
 }
 ```
 
+
 #### 在通知栏显示入口
+
 ```java
 AppFileExplorer.showNotification(context);
 ```
