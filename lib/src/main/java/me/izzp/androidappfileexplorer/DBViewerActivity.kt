@@ -57,14 +57,14 @@ internal class DBViewerActivity : AppCompatActivity() {
 
         supportActionBar?.title = file.name
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
+        afe_recyclerView.layoutManager = LinearLayoutManager(this)
+        afe_recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
 
-        btn_pre.setOnClickListener {
+        afe_btn_pre.setOnClickListener {
             index -= 50
             loadTableData()
         }
-        btn_next.setOnClickListener {
+        afe_btn_next.setOnClickListener {
             index += 50
             loadTableData()
         }
@@ -72,27 +72,27 @@ internal class DBViewerActivity : AppCompatActivity() {
     }
 
     private fun refreshButtonStatus() {
-        btn_pre.isEnabled = index != 0
-        btn_next.isEnabled = (count - index) > 50
+        afe_btn_pre.isEnabled = index != 0
+        afe_btn_next.isEnabled = (count - index) > 50
         val start = index + 1
         val total = count
         val count = Math.min(50, total - start + 1)
-        tv_page.text = "当前页:$start-${start + count - 1}/$total"
+        afe_tv_page.text = "当前页:$start-${start + count - 1}/$total"
     }
 
     private fun loadTableList() {
         fun showList(list: List<String>) {
-            progress.gone()
+            afe_progress.gone()
             contentPanel.gone()
-            recyclerView.show()
-            recyclerView.adapter = Adapter(list)
+            afe_recyclerView.show()
+            afe_recyclerView.adapter = Adapter(list)
             contentShown = false
             supportActionBar?.title = file.name
         }
 
         if (tables == null) {
-            progress.show()
-            recyclerView.gone()
+            afe_progress.show()
+            afe_recyclerView.gone()
             contentPanel.gone()
             task = asyncFuture {
                 var rtn: List<String>? = null
@@ -118,18 +118,18 @@ internal class DBViewerActivity : AppCompatActivity() {
     }
 
     private fun loadTableData() {
-        progress.show()
-        recyclerView.gone()
+        afe_progress.show()
+        afe_recyclerView.gone()
         contentPanel.gone()
         task = asyncFuture {
             DbUtil.getData(file, table, index, 50)
         }.ui(100) {
             task = null
             contentShown = true
-            progress.gone()
+            afe_progress.gone()
             contentPanel.show()
             refreshButtonStatus()
-            val grid = LockTableView(this, table_container, it)
+            val grid = LockTableView(this, afe_table_container, it)
             grid.setLockFristColumn(true)
             grid.setLockFristRow(true)
             grid.setTableViewListener(object : LockTableView.OnTableViewListener {

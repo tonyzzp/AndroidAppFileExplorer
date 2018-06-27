@@ -6,7 +6,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.support.v4.app.NotificationCompat
 
 /**
@@ -42,19 +41,18 @@ object AppFileExplorer {
     @JvmStatic
     fun showNotification(context: Context) {
         val context = context.applicationContext
+        val mgr = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val intent = Intent(context, DirListActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         val pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val noti = NotificationCompat.Builder(context, NotificationChannel.DEFAULT_CHANNEL_ID)
                 .setContentTitle("点击打开FileExplorer")
-                .setOngoing(true)
                 .setDefaults(0)
                 .setAutoCancel(false)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(android.R.drawable.ic_dialog_info)
                 .setContentIntent(pi)
                 .build()
-        val mgr = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         mgr.notify(R.id.afe_noti, noti)
     }
 

@@ -9,23 +9,32 @@ import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.view.ActionMode
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
-import kotlinx.android.synthetic.main.afe_activity_file_explorer.*
 import java.io.File
 import kotlin.properties.Delegates
 
-internal class FileExplorerActivity : AppCompatActivity() {
+internal class FileExplorerActivity : AppCompatActivity(), ActionMode.Callback {
+
+    companion object {
+        fun create(context: Context, dir: String): Intent {
+            val intent = Intent(context, FileExplorerActivity::class.java)
+            intent.putExtra("dir", dir)
+            return intent
+        }
+    }
 
     private class Item(val type: Int, val file: File) {
         companion object {
-            const val TYPE_DIR = 1
             const val TYPE_FILE = 2
             const val TYPE_RETURN = 3
         }
@@ -41,21 +50,15 @@ internal class FileExplorerActivity : AppCompatActivity() {
         }
     }
 
-    companion object {
-        fun create(context: Context, dir: String): Intent {
-            val intent = Intent(context, FileExplorerActivity::class.java)
-            intent.putExtra("dir", dir)
-            return intent
-        }
-    }
-
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val icon = itemView.findViewById(R.id.iv_icon) as ImageView
-        val name = itemView.findViewById(R.id.tv_name) as TextView
-        val path = itemView.findViewById(R.id.tv_path) as TextView
+        val icon = itemView.findViewById<ImageView>(R.id.afe_iv_icon)
+        val name = itemView.findViewById<TextView>(R.id.afe_tv_name)
+        val path = itemView.findViewById<TextView>(R.id.afe_tv_path)
+        val checkbox = itemView.findViewById<CheckBox>(R.id.afe_checkbox)
     }
 
     private inner class Adapter(val list: List<Item>) : RecyclerView.Adapter<Holder>() {
+
         override fun onBindViewHolder(holder: Holder, position: Int) {
             val item = itemAt(position)
             val f = item.file
@@ -68,24 +71,25 @@ internal class FileExplorerActivity : AppCompatActivity() {
                 } else {
                     holder.path.text = desc
                 }
-                var img = R.drawable.afe_ic_fileicon_file_light
-                if (f.isDirectory) {
-                    img = R.drawable.afe_ic_fileicon_folder_light
-                } else if (f.isImageFile()) {
-                    img = R.drawable.afe_ic_fileicon_image_light
-                } else if (f.isVideoFile()) {
-                    img = R.drawable.afe_ic_fileicon_video_light
-                } else if (f.isAudioFile()) {
-                    img = R.drawable.afe_ic_fileicon_audio_light
-                } else if (f.isTextFile()) {
-                    img = R.drawable.afe_ic_fileicon_text_light
+                val img = when {
+                    f.isDirectory -> R.drawable.afe_ic_fileicon_folder_light
+                    f.isImageFile() -> R.drawable.afe_ic_fileicon_image_light
+                    f.isVideoFile() -> R.drawable.afe_ic_fileicon_video_light
+                    f.isAudioFile() -> R.drawable.afe_ic_fileicon_audio_light
+                    f.isTextFile() -> R.drawable.afe_ic_fileicon_text_light
+                    else -> R.drawable.afe_ic_fileicon_file_light
                 }
                 holder.icon.setImageResource(img)
+                holder.checkbox.isChecked = selected.contains(f)
             } else if (type == Item.TYPE_RETURN) {
                 holder.icon.setImageResource(R.drawable.afe_ic_fileicon_return_light)
                 holder.name.text = f.name
                 holder.path.text = f.absolutePath
                 holder.path.show()
+            }
+            holder.checkbox.visibility = if (isActionMode) View.VISIBLE else View.GONE
+            if (type == Item.TYPE_RETURN) {
+                holder.checkbox.visibility = View.GONE
             }
         }
 
@@ -94,17 +98,41 @@ internal class FileExplorerActivity : AppCompatActivity() {
             val holder = Holder(view)
             holder.itemView.setOnClickListener {
                 val item = itemAt(holder.adapterPosition)
-                val type = item.type
-                val f = item.file
-                if (type == Item.TYPE_FILE) {
-                    if (f.isDirectory) {
-                        showDir(f)
-                    } else {
-                        openFile(f, holder)
+                if (isActionMode) {
+                    if (item.type != Item.TYPE_RETURN) {
+                        val file = item.file
+                        if (selected.contains(file)) {
+                            selected.remove(file)
+                        } else {
+                            selected.add(file)
+                        }
+                        recyclerView.adapter?.notifyDataSetChanged()
                     }
-                } else if (type == Item.TYPE_RETURN) {
-                    showDir(f)
+                } else {
+                    val type = item.type
+                    val f = item.file
+                    if (type == Item.TYPE_FILE) {
+                        if (f.isDirectory) {
+                            showDir(f)
+                        } else {
+                            openFile(f, holder)
+                        }
+                    } else if (type == Item.TYPE_RETURN) {
+                        showDir(f)
+                    }
                 }
+            }
+            holder.itemView.setOnLongClickListener {
+                val item = itemAt(holder.adapterPosition)
+                if (item.type != Item.TYPE_RETURN) {
+                    startSupportActionMode(this@FileExplorerActivity)
+                    selected.add(item.file)
+                    recyclerView.adapter?.notifyDataSetChanged()
+                }
+                true
+            }
+            holder.checkbox.setOnClickListener {
+                holder.itemView.performClick()
             }
             return holder
         }
@@ -114,14 +142,13 @@ internal class FileExplorerActivity : AppCompatActivity() {
         private fun itemAt(position: Int) = list[position]
     }
 
-    val rootDir: File by lazy {
-        File(intent.getStringExtra("dir"))
-    }
-    val actionBar: ActionBar by lazy {
-        supportActionBar!!
-    }
-
-    var currentDir: File by Delegates.notNull<File>()
+    val rootDir: File by lazy { File(intent.getStringExtra("dir")) }
+    val actionBar: ActionBar by lazy { supportActionBar!! }
+    var currentDir: File by Delegates.notNull()
+    private val recyclerView by lazy { findViewById<RecyclerView>(R.id.afe_recyclerView) }
+    private val tv_error by lazy { findViewById<TextView>(R.id.afe_tv_error) }
+    private val selected = mutableListOf<File>()
+    private var isActionMode = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,12 +161,16 @@ internal class FileExplorerActivity : AppCompatActivity() {
         recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
 
         currentDir = rootDir
-        if (rootDir.isFile) {
-            showError("$rootDir 是个文件")
-        } else if (!rootDir.exists()) {
-            showError("$rootDir 不存在")
+        refresh()
+    }
+
+    private fun refresh() {
+        if (currentDir.isFile) {
+            showError("$currentDir 是个文件")
+        } else if (!currentDir.exists()) {
+            showError("$currentDir 不存在")
         } else {
-            showDir(rootDir)
+            showDir(currentDir)
         }
     }
 
@@ -230,5 +261,32 @@ internal class FileExplorerActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.afe_mi_delete -> {
+                selected.forEach {
+                    it.deleteRecursively()
+                }
+            }
+        }
+        mode.finish()
+        refresh()
+        return true
+    }
+
+    override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.afe_explorer_actionmode, menu)
+        isActionMode = true
+        return true
+    }
+
+    override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean = true
+
+    override fun onDestroyActionMode(mode: ActionMode) {
+        selected.clear()
+        isActionMode = false
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 }

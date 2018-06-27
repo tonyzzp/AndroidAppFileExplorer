@@ -20,15 +20,20 @@ import me.izzp.androidappfileexplorer.AppFileExplorer;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static boolean CUSTOME_DIRS = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AppFileExplorer.showNotification(this);
-        List<String> list = new ArrayList<>();
-        list.add(Environment.getExternalStorageDirectory().getAbsolutePath());
-        list.add(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
-        AppFileExplorer.addDirs(list);
+        if (CUSTOME_DIRS) {
+            CUSTOME_DIRS = false;
+            List<String> list = new ArrayList<>();
+            list.add(Environment.getExternalStorageDirectory().getAbsolutePath());
+            list.add(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
+            AppFileExplorer.addDirs(list);
+        }
     }
 
     @Override

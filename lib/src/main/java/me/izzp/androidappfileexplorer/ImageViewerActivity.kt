@@ -12,7 +12,7 @@ internal class ImageViewerActivity : AppCompatActivity() {
         setContentView(R.layout.afe_activity_image_view)
 
         val file = intent.data.toFile()
-        supportActionBar!!.title = file.name
+        supportActionBar?.title = file.name
 
         val inStream = contentResolver.openInputStream(intent.data)
         val bmp = BitmapFactory.decodeStream(inStream)

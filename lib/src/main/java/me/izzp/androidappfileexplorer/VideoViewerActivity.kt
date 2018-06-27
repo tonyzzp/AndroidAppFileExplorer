@@ -18,10 +18,10 @@ internal class VideoViewerActivity : AppCompatActivity() {
         val file = intent.data.toFile()
         supportActionBar?.title = file.name
 
-        videoView.setVideoURI(intent.data)
-        videoView.start()
+        afe_videoView.setVideoURI(intent.data)
+        afe_videoView.start()
 
-        videoView.setMediaController(controller)
+        afe_videoView.setMediaController(controller)
 
         val fragment = FileInfoFragment.create(file)
         supportFragmentManager.beginTransaction().add(fragment, "fileinfo").commit()

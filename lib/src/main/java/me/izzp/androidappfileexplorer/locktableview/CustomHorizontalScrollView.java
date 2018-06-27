@@ -4,9 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.HorizontalScrollView;
 
-import me.izzp.androidappfileexplorer.AudioViewerActivity;
-import me.izzp.androidappfileexplorer.TextViewerActivity;
-
 /**
  * 说明 自定义水平滚动视图，解决ScrollView在API23以下没有滚动监听事件问题
  * 作者 郭翰林

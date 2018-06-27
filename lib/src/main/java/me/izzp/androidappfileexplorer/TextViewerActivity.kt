@@ -12,12 +12,12 @@ internal class TextViewerActivity : AppCompatActivity() {
         val f = intent.data.toFile()
         supportActionBar?.title = f.name
 
-        progress.show()
+        afe_progress.show()
         asyncFuture {
             f.readText()
         }.ui {
-            progress.gone()
-            tv.text = it
+            afe_progress.gone()
+            afe_tv.text = it
             val fragment = FileInfoFragment.create(f)
             supportFragmentManager.beginTransaction().add(fragment, "fileinfo").commit()
             fragment.mime = "text/*"

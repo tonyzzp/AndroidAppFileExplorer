@@ -1,6 +1,5 @@
 package me.izzp.androidappfileexplorer
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -29,7 +28,10 @@ internal class DirListActivity : AppCompatActivity() {
         setContentView(recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
+        refresh()
+    }
 
+    private fun refresh() {
         val dirs = LinkedHashMap<String, String>()
         dirs["Internal Data Dir"] = filesDir.parent
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -65,10 +67,5 @@ internal class DirListActivity : AppCompatActivity() {
                 return holder
             }
         }
-    }
-
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        println("onNewIntent:$intent")
     }
 }

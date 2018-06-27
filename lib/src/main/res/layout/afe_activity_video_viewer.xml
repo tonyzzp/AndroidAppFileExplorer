@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <VideoView
-        android:id="@+id/videoView"
+        android:id="@+id/afe_videoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"

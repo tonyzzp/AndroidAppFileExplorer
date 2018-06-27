@@ -5,14 +5,14 @@
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/recyclerView"
+        android:id="@+id/afe_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
         tools:listitem="@layout/afe_file_explorer_list_item" />
 
     <TextView
-        android:id="@+id/tv_error"
+        android:id="@+id/afe_tv_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

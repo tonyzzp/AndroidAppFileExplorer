@@ -43,11 +43,11 @@ internal class FileInfoFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         var rtn = false
         when (item.itemId) {
-            R.id.mi_fileinfo -> {
+            R.id.afe_mi_fileinfo -> {
                 showInfoDialog()
                 rtn = true
             }
-            R.id.mi_open -> {
+            R.id.afe_mi_open -> {
                 if (shouldShowConfirm()) {
                     val message = "文件将被复制到sd卡上，并使用外部程序打开\n文件会保存到${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath}/afe目录"
                     activity!!.confirmDialog(null, message, "打开", {

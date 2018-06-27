@@ -20,23 +20,23 @@ internal class AudioViewerActivity : AppCompatActivity() {
         if (player != null) {
             val player = player!!
             player.start()
-            btn.setImageResource(R.drawable.afe_ic_btn_pause)
+            afe_btn.setImageResource(R.drawable.afe_ic_btn_pause)
             player.setOnCompletionListener {
-                btn.setImageResource(R.drawable.afe_ic_btn_play)
+                afe_btn.setImageResource(R.drawable.afe_ic_btn_play)
             }
-            btn.setOnClickListener {
+            afe_btn.setOnClickListener {
                 if (player.isPlaying) {
                     player.pause()
-                    btn.setImageResource(R.drawable.afe_ic_btn_play)
+                    afe_btn.setImageResource(R.drawable.afe_ic_btn_play)
                 } else {
                     player.start()
-                    btn.setImageResource(R.drawable.afe_ic_btn_pause)
+                    afe_btn.setImageResource(R.drawable.afe_ic_btn_pause)
                 }
             }
-            tv.text = intent.dataString
+            afe_tv.text = intent.dataString
         } else {
-            tv.text = "读取音乐失败"
-            btn.gone()
+            afe_tv.text = "读取音乐失败"
+            afe_btn.gone()
         }
         val fragment = FileInfoFragment.create(file)
         supportFragmentManager.beginTransaction().add(fragment, "fileinfo").commit()
@@ -45,7 +45,7 @@ internal class AudioViewerActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         player?.pause()
-        btn.setImageResource(R.drawable.afe_ic_btn_play)
+        afe_btn.setImageResource(R.drawable.afe_ic_btn_play)
     }
 
     override fun onDestroy() {

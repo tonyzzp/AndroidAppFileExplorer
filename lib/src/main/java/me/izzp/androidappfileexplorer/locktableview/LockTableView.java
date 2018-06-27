@@ -351,12 +351,12 @@ public class LockTableView {
      * 初始化表格视图
      */
     private void initView() {
-        mColumnTitleView = (TextView) mTableView.findViewById(R.id.lockHeadView_Text);
-        mLockHeadView = (LinearLayout) mTableView.findViewById(R.id.lockHeadView);
-        mUnLockHeadView = (LinearLayout) mTableView.findViewById(R.id.unLockHeadView);
-        mLockScrollView = (CustomHorizontalScrollView) mTableView.findViewById(R.id.lockHeadView_ScrollView);
-        mUnLockScrollView = (CustomHorizontalScrollView) mTableView.findViewById(R.id.unlockHeadView_ScrollView);
-        mTableScrollView = (ScrollView) mTableView.findViewById(R.id.table_scrollView);
+        mColumnTitleView = (TextView) mTableView.findViewById(R.id.afe_lockHeadView_Text);
+        mLockHeadView = (LinearLayout) mTableView.findViewById(R.id.afe_lockHeadView);
+        mUnLockHeadView = (LinearLayout) mTableView.findViewById(R.id.afe_unLockHeadView);
+        mLockScrollView = (CustomHorizontalScrollView) mTableView.findViewById(R.id.afe_lockHeadView_ScrollView);
+        mUnLockScrollView = (CustomHorizontalScrollView) mTableView.findViewById(R.id.afe_unlockHeadView_ScrollView);
+        mTableScrollView = (ScrollView) mTableView.findViewById(R.id.afe_table_scrollView);
         mLockHeadView.setBackgroundColor(ContextCompat.getColor(mContext, mFristRowBackGroudColor));
         mUnLockHeadView.setBackgroundColor(ContextCompat.getColor(mContext, mFristRowBackGroudColor));
         if (isLockFristRow) {
@@ -425,8 +425,8 @@ public class LockTableView {
      */
     private void createLockColumnView() {
         View lockTableViewContent = LayoutInflater.from(mContext).inflate(R.layout.afe_locktablecontentview, null);
-        LinearLayout lockViewParent = (LinearLayout) lockTableViewContent.findViewById(R.id.lockView_parent);
-        CustomHorizontalScrollView lockScrollViewParent = (CustomHorizontalScrollView) lockTableViewContent.findViewById(R.id.lockScrollView_parent);
+        LinearLayout lockViewParent = (LinearLayout) lockTableViewContent.findViewById(R.id.afe_lockView_parent);
+        CustomHorizontalScrollView lockScrollViewParent = (CustomHorizontalScrollView) lockTableViewContent.findViewById(R.id.afe_lockScrollView_parent);
         //构造锁定视图
         for (int i = 0; i < mTableColumnDatas.size(); i++) {
             //构造TextView容器，如果要设置背景色设置这一个而不是设置TextView，TextView有外边距设置不全
@@ -566,7 +566,7 @@ public class LockTableView {
      */
     private void createUnLockColumnView() {
         View lockTableViewContent = LayoutInflater.from(mContext).inflate(R.layout.afe_customscrollview, null);
-        CustomHorizontalScrollView lockScrollViewParent = (CustomHorizontalScrollView) lockTableViewContent.findViewById(R.id.unlockScrollView_parent);
+        CustomHorizontalScrollView lockScrollViewParent = (CustomHorizontalScrollView) lockTableViewContent.findViewById(R.id.afe_unlockScrollView_parent);
         //构造滚动视图
         LinearLayout scollViewItemContentView = new LinearLayout(mContext);
         LinearLayout.LayoutParams scollViewItemContentViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,

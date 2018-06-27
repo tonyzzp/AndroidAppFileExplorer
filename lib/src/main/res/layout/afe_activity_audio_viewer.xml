@@ -14,13 +14,13 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/tv"
+            android:id="@+id/afe_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="/asdf/asf/a.wav" />
 
         <ImageButton
-            android:id="@+id/btn"
+            android:id="@+id/afe_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"

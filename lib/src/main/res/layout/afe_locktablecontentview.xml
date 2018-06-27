@@ -5,7 +5,7 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:id="@+id/lockView_parent"
+        android:id="@+id/afe_lockView_parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical" />
@@ -16,7 +16,7 @@
         android:background="@color/afe_light_gray" />
 
     <me.izzp.androidappfileexplorer.locktableview.CustomHorizontalScrollView
-        android:id="@+id/lockScrollView_parent"
+        android:id="@+id/afe_lockScrollView_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

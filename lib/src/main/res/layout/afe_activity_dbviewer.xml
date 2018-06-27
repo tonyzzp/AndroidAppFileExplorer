@@ -15,7 +15,7 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/table_container"
+            android:id="@+id/afe_table_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -29,7 +29,7 @@
             android:padding="5dp">
 
             <TextView
-                android:id="@+id/tv_page"
+                android:id="@+id/afe_tv_page"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -43,14 +43,14 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btn_pre"
+                    android:id="@+id/afe_btn_pre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="上一页" />
 
                 <Button
-                    android:id="@+id/btn_next"
+                    android:id="@+id/afe_btn_next"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -60,12 +60,12 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/afe_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <LinearLayout
-        android:id="@+id/progress"
+        android:id="@+id/afe_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
