@@ -28,7 +28,7 @@ allprojects {
 #### 在module目录内的build.gradle文件内添加
 ```gradle
 dependencies {
-        compile 'com.github.tonyzzp:AndroidAppFileExplorer:0.9'
+        compile 'com.github.tonyzzp:AndroidAppFileExplorer:1.0'
         compile 'com.github.tonyzzp:AndroidAppFileExplorer:master-SNAPSHOT' //使用master最新版
 }
 ```

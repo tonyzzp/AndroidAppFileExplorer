@@ -6,12 +6,15 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.support.v4.app.NotificationCompat
 
 /**
  * Created by zzp on 2017-08-08.
  */
 object AppFileExplorer {
+
+    const val CHANNEL_ID = "AppFileExplorer"
 
     val customDirs = ArrayList<String>()
 
@@ -42,10 +45,17 @@ object AppFileExplorer {
     fun showNotification(context: Context) {
         val context = context.applicationContext
         val mgr = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = mgr.getNotificationChannel(CHANNEL_ID)
+            if (channel == null) {
+                val channel = NotificationChannel(CHANNEL_ID, CHANNEL_ID, NotificationManager.IMPORTANCE_DEFAULT)
+                mgr.createNotificationChannel(channel)
+            }
+        }
         val intent = Intent(context, DirListActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         val pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val noti = NotificationCompat.Builder(context, NotificationChannel.DEFAULT_CHANNEL_ID)
+        val noti = NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentTitle("点击打开FileExplorer")
                 .setDefaults(0)
                 .setAutoCancel(false)
