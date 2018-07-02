@@ -1,9 +1,6 @@
 package me.izzp.androidappfileexplorer
 
-import android.app.Activity
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -48,7 +45,10 @@ object AppFileExplorer {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = mgr.getNotificationChannel(CHANNEL_ID)
             if (channel == null) {
-                val channel = NotificationChannel(CHANNEL_ID, CHANNEL_ID, NotificationManager.IMPORTANCE_DEFAULT)
+                val channel = NotificationChannel(CHANNEL_ID, CHANNEL_ID, NotificationManager.IMPORTANCE_LOW)
+                channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+                channel.enableLights(false)
+                channel.enableVibration(false)
                 mgr.createNotificationChannel(channel)
             }
         }
