@@ -211,8 +211,9 @@ internal class FileExplorerActivity : AppCompatActivity(), ActionMode.Callback {
         fun open() {
             if (type != "") {
                 val intent = Intent(ACTION_VIEW)
-                intent.setDataAndType(Uri.fromFile(f), type)
                 intent.`package` = packageName
+                intent.type = type
+                intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f))
                 val opts = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         this,
                         holder.icon,

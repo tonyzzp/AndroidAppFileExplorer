@@ -1,5 +1,7 @@
 package me.izzp.androidappfileexplorer
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
@@ -44,9 +46,7 @@ internal class DBViewerActivity : AppCompatActivity() {
     private var tables: List<String>? = null
     private var task: AsyncFuture<*>? = null
     private var contentShown = false
-    private val file: File by lazy {
-        intent.data.toFile()
-    }
+    private val file: File by lazy { intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM).toFile() }
     private var table: String = ""
     private var index = 0
     private var count = 0
@@ -98,7 +98,7 @@ internal class DBViewerActivity : AppCompatActivity() {
                 var rtn: List<String>? = null
                 try {
                     rtn = DbUtil.tables(file)
-                } catch(e: Exception) {
+                } catch (e: Exception) {
                 }
                 rtn
             }.ui(100) {

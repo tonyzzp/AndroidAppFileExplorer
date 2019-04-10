@@ -1,7 +1,9 @@
 package me.izzp.androidappfileexplorer
 
+import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.afe_activity_audio_viewer.*
@@ -13,7 +15,7 @@ internal class AudioViewerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.afe_activity_audio_viewer)
-        val file = intent.data.toFile()
+        val file = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM).toFile()
         supportActionBar?.title = file.name
         volumeControlStream = AudioManager.STREAM_MUSIC
         player = MediaPlayer.create(this, intent.data)
