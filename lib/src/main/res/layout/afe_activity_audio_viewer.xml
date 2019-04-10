@@ -24,8 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:src="@drawable/afe_ic_btn_play"
-            android:transitionName="icon" />
+            android:src="@drawable/afe_ic_btn_play" />
     </LinearLayout>
 
 </FrameLayout>

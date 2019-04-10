@@ -5,10 +5,10 @@
         android:id="@+id/afe_mi_fileinfo"
         android:icon="@drawable/afe_ic_info_dark"
         android:title="文件信息"
-        app:showAsAction="always" />
+        android:showAsAction="always" />
     <item
         android:id="@+id/afe_mi_open"
         android:icon="@drawable/afe_ic_open_dark"
         android:title="外部工具打开"
-        app:showAsAction="always" />
+        android:showAsAction="always" />
 </menu>

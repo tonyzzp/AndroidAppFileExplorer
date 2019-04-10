@@ -1,7 +1,6 @@
 package me.izzp.androidappfileexplorer.locktableview;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;

@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,7 +17,7 @@ import java.util.List;
 
 import me.izzp.androidappfileexplorer.AppFileExplorer;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private static boolean CUSTOME_DIRS = true;
 

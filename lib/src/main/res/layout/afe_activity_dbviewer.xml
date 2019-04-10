@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:transitionName="icon"
     tools:context="me.izzp.androidappfileexplorer.DBViewerActivity">
 
 
@@ -59,7 +58,7 @@
         </FrameLayout>
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <ListView
         android:id="@+id/afe_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

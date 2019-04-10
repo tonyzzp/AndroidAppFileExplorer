@@ -1,29 +1,19 @@
 package me.izzp.androidappfileexplorer
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.view.ViewCompat
-import android.support.v7.app.ActionBar
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.view.ActionMode
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.*
+import android.widget.*
 import java.io.File
 import kotlin.properties.Delegates
 
-internal class FileExplorerActivity : AppCompatActivity(), ActionMode.Callback {
+internal class FileExplorerActivity : Activity(), ActionMode.Callback {
 
     companion object {
         fun create(context: Context, dir: String): Intent {
@@ -50,17 +40,65 @@ internal class FileExplorerActivity : AppCompatActivity(), ActionMode.Callback {
         }
     }
 
-    inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class Holder(val itemView: View) {
+        var position: Int = 0
         val icon = itemView.findViewById<ImageView>(R.id.afe_iv_icon)
         val name = itemView.findViewById<TextView>(R.id.afe_tv_name)
         val path = itemView.findViewById<TextView>(R.id.afe_tv_path)
         val checkbox = itemView.findViewById<CheckBox>(R.id.afe_checkbox)
     }
 
-    private inner class Adapter(val list: List<Item>) : RecyclerView.Adapter<Holder>() {
-
-        override fun onBindViewHolder(holder: Holder, position: Int) {
-            val item = itemAt(position)
+    private inner class Adapter(val list: List<Item>) : BaseAdapter() {
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val view = if (convertView != null) {
+                convertView
+            } else {
+                val v = layoutInflater.inflate(R.layout.afe_file_explorer_list_item, parent, false)
+                val holder = Holder(v)
+                holder.itemView.setOnClickListener {
+                    val item = getItem(holder.position)
+                    if (isActionMode) {
+                        if (item.type != Item.TYPE_RETURN) {
+                            val file = item.file
+                            if (selected.contains(file)) {
+                                selected.remove(file)
+                            } else {
+                                selected.add(file)
+                            }
+                            (listView.adapter as BaseAdapter?)?.notifyDataSetChanged()
+                        }
+                    } else {
+                        val type = item.type
+                        val f = item.file
+                        if (type == Item.TYPE_FILE) {
+                            if (f.isDirectory) {
+                                showDir(f)
+                            } else {
+                                openFile(f, holder)
+                            }
+                        } else if (type == Item.TYPE_RETURN) {
+                            showDir(f)
+                        }
+                    }
+                }
+                holder.itemView.setOnLongClickListener {
+                    val item = getItem(holder.position)
+                    if (item.type != Item.TYPE_RETURN) {
+                        startActionMode(this@FileExplorerActivity)
+                        selected.add(item.file)
+                        (listView.adapter as BaseAdapter?)?.notifyDataSetChanged()
+                    }
+                    true
+                }
+                holder.checkbox.setOnClickListener {
+                    holder.itemView.performClick()
+                }
+                v.tag = holder
+                v
+            }
+            val holder = view.tag as Holder
+            holder.position = position
+            val item = getItem(position)
             val f = item.file
             val type = item.type
             if (type == Item.TYPE_FILE) {
@@ -91,61 +129,19 @@ internal class FileExplorerActivity : AppCompatActivity(), ActionMode.Callback {
             if (type == Item.TYPE_RETURN) {
                 holder.checkbox.visibility = View.GONE
             }
+            return view
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-            val view = layoutInflater.inflate(R.layout.afe_file_explorer_list_item, parent, false)
-            val holder = Holder(view)
-            holder.itemView.setOnClickListener {
-                val item = itemAt(holder.adapterPosition)
-                if (isActionMode) {
-                    if (item.type != Item.TYPE_RETURN) {
-                        val file = item.file
-                        if (selected.contains(file)) {
-                            selected.remove(file)
-                        } else {
-                            selected.add(file)
-                        }
-                        recyclerView.adapter?.notifyDataSetChanged()
-                    }
-                } else {
-                    val type = item.type
-                    val f = item.file
-                    if (type == Item.TYPE_FILE) {
-                        if (f.isDirectory) {
-                            showDir(f)
-                        } else {
-                            openFile(f, holder)
-                        }
-                    } else if (type == Item.TYPE_RETURN) {
-                        showDir(f)
-                    }
-                }
-            }
-            holder.itemView.setOnLongClickListener {
-                val item = itemAt(holder.adapterPosition)
-                if (item.type != Item.TYPE_RETURN) {
-                    startSupportActionMode(this@FileExplorerActivity)
-                    selected.add(item.file)
-                    recyclerView.adapter?.notifyDataSetChanged()
-                }
-                true
-            }
-            holder.checkbox.setOnClickListener {
-                holder.itemView.performClick()
-            }
-            return holder
-        }
+        override fun getItem(p0: Int) = list[p0]
 
-        override fun getItemCount(): Int = list.size
+        override fun getItemId(p0: Int) = p0.toLong()
 
-        private fun itemAt(position: Int) = list[position]
+        override fun getCount() = list.size
     }
 
     val rootDir: File by lazy { File(intent.getStringExtra("dir")) }
-    val actionBar: ActionBar by lazy { supportActionBar!! }
     var currentDir: File by Delegates.notNull()
-    private val recyclerView by lazy { findViewById<RecyclerView>(R.id.afe_recyclerView) }
+    private val listView by lazy { findViewById<ListView>(R.id.afe_recyclerView) }
     private val tv_error by lazy { findViewById<TextView>(R.id.afe_tv_error) }
     private val selected = mutableListOf<File>()
     private var isActionMode = false
@@ -154,11 +150,7 @@ internal class FileExplorerActivity : AppCompatActivity(), ActionMode.Callback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.afe_activity_file_explorer)
 
-        actionBar.setDisplayShowHomeEnabled(true)
-        actionBar.setDisplayHomeAsUpEnabled(true)
-
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
+        actionBar?.setDisplayHomeAsUpEnabled(true)
 
         currentDir = rootDir
         refresh()
@@ -177,13 +169,13 @@ internal class FileExplorerActivity : AppCompatActivity(), ActionMode.Callback {
     private fun showError(error: String) {
         tv_error.text = error
         tv_error.show()
-        recyclerView.gone()
+        listView.gone()
     }
 
     private fun showDir(dir: File) {
-        actionBar.title = dir.name
+        actionBar?.title = dir.name
         currentDir = dir
-        val list = dir.listFiles().sortByName()
+        val list = dir.listFiles()?.sortByName()
         if (list == null) {
             showError("访问 $dir 出错")
         } else {
@@ -214,13 +206,7 @@ internal class FileExplorerActivity : AppCompatActivity(), ActionMode.Callback {
                 intent.`package` = packageName
                 intent.type = type
                 intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f))
-                val opts = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        this,
-                        holder.icon,
-                        ViewCompat.getTransitionName(holder.icon)
-                )
-                val bundle = opts.toBundle()
-                ActivityCompat.startActivity(this, intent, bundle)
+                startActivity(intent)
             }
         }
 
@@ -243,8 +229,8 @@ internal class FileExplorerActivity : AppCompatActivity(), ActionMode.Callback {
     }
 
     private fun showList(list: List<Item>) {
-        recyclerView.adapter = Adapter(list)
-        recyclerView.show()
+        listView.adapter = Adapter(list)
+        listView.show()
         tv_error.gone()
     }
 
@@ -288,6 +274,9 @@ internal class FileExplorerActivity : AppCompatActivity(), ActionMode.Callback {
     override fun onDestroyActionMode(mode: ActionMode) {
         selected.clear()
         isActionMode = false
-        recyclerView.adapter?.notifyDataSetChanged()
+        val adapter = listView.adapter
+        if (adapter is BaseAdapter) {
+            adapter.notifyDataSetChanged()
+        }
     }
 }

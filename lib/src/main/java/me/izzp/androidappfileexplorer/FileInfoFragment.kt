@@ -1,13 +1,15 @@
 package me.izzp.androidappfileexplorer
 
+import android.app.Fragment
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.StrictMode
 import android.preference.PreferenceManager
-import android.support.v4.app.Fragment
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -51,7 +53,7 @@ internal class FileInfoFragment : Fragment() {
                 if (shouldShowConfirm()) {
                     val message = "文件将被复制到sd卡上，并使用外部程序打开\n文件会保存到${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath}/afe目录"
                     activity!!.confirmDialog(null, message, "打开", {
-                        PreferenceManager.getDefaultSharedPreferences(context)
+                        PreferenceManager.getDefaultSharedPreferences(activity)
                                 .edit().putBoolean("extenal_open_confirm", false).apply()
                         open()
                     }, "取消", null)
@@ -79,11 +81,11 @@ internal class FileInfoFragment : Fragment() {
     }
 
     private fun shouldShowConfirm(): Boolean {
-        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("extenal_open_confirm", true)
+        return PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("extenal_open_confirm", true)
     }
 
     private fun open() {
-        val progressDialog = ProgressDialog(context)
+        val progressDialog = ProgressDialog(activity)
         progressDialog.setCancelable(false)
         progressDialog.setMessage("正在复制文件")
         progressDialog.show()
@@ -94,13 +96,16 @@ internal class FileInfoFragment : Fragment() {
             try {
                 src.copyTo(dst, true)
                 flag = true
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
             flag to dst
         }.ui(100) {
             progressDialog.dismiss()
             if (it.first) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().penaltyDeathOnFileUriExposure().build())
+                }
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.setDataAndType(Uri.fromFile(it.second), mime)
                 startActivity(Intent.createChooser(intent, null))

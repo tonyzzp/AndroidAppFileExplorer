@@ -1,6 +1,7 @@
 package me.izzp.androidappfileexplorer
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
@@ -9,8 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.support.annotation.RequiresApi
-import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Toast
 import java.io.DataInputStream
@@ -66,12 +65,12 @@ internal fun Activity.confirmDialog(
     AlertDialog.Builder(this)
             .setTitle(title)
             .setMessage(message)
-            .setPositiveButton(positiveText, { _, _ ->
+            .setPositiveButton(positiveText) { _, _ ->
                 positiveListener?.invoke()
-            })
-            .setNegativeButton(negativeText, { _, _ ->
+            }
+            .setNegativeButton(negativeText) { _, _ ->
                 negativeListener?.invoke()
-            })
+            }
             .show()
 }
 
@@ -128,7 +127,12 @@ internal fun File.isDatabase(): Boolean {
         return false
     }
     val inStream = DataInputStream(inputStream())
-    val magic = inStream.readInt()
+    var magic = 0
+    try {
+        magic = inStream.readInt()
+    } catch (e: Exception) {
+
+    }
     inStream.close()
     return magic == 0x53514c69
 }
@@ -146,7 +150,7 @@ internal fun Uri.toFile(): File = File(URLDecoder.decode(toString().substringAft
  *
  * @return this
  */
-internal fun Array<File>?.sortByName(): Array<File>? {
+internal fun Array<File>.sortByName(): Array<File> {
     Arrays.sort(this) { a, b ->
         val rtn: Int
         if (a.isDirectory and b.isFile) {
@@ -176,7 +180,6 @@ private val handler: Handler by lazy {
     Handler(Looper.getMainLooper())
 }
 
-@RequiresApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 internal open class ActivityLifeCycleAdapter : Application.ActivityLifecycleCallbacks {
     override fun onActivityPaused(activity: Activity) {
     }
@@ -212,7 +215,6 @@ internal class AsyncFuture<T>(act: Activity, val ref: Ref.ObjectRef<T>) {
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             cb = object : ActivityLifeCycleAdapter() {
-                @RequiresApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
                 override fun onActivityDestroyed(activity: Activity) {
                     super.onActivityDestroyed(activity)
                     val act = actref.get()

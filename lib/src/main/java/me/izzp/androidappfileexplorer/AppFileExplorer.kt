@@ -4,7 +4,6 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.support.v4.app.NotificationCompat
 
 /**
  * Created by zzp on 2017-08-08.
@@ -55,14 +54,19 @@ object AppFileExplorer {
         val intent = Intent(context, DirListActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         val pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val noti = NotificationCompat.Builder(context, CHANNEL_ID)
+        val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Notification.Builder(context, CHANNEL_ID)
+        } else {
+            Notification.Builder(context)
+        }
+        val noti = builder
                 .setContentTitle("点击打开FileExplorer")
                 .setDefaults(0)
                 .setAutoCancel(false)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(android.R.drawable.ic_dialog_info)
                 .setContentIntent(pi)
-                .build()
+                .notification
         mgr.notify(R.id.afe_noti, noti)
     }
 

@@ -4,5 +4,5 @@
     <item
         android:id="@+id/afe_mi_delete"
         android:title="删除"
-        app:showAsAction="always" />
+        android:showAsAction="always" />
 </menu>
